@@ -3,13 +3,16 @@
   "host": "localhost",
   "port": 5432,
   "username": "postgres",
-  "password": "postgres",
+  "password": "docker",
   "database": "igarassu_parafusos",
+  "entities": [
+    "./src/models/*.ts"
+  ],
   "migrations": [
     "./src/database/migrations/*.ts"
   ],
   "cli": {
-    "migrationDir": "./src/database/migrations"
+    "migrationsDir": "./src/database/migrations"
   }
 
 }

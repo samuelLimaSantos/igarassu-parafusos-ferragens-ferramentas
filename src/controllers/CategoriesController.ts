@@ -16,4 +16,12 @@ export default class CategoriesController {
 
     return response.status(201).json(category);
   }
+
+  async store(request: Request, response: Response) {
+    const categoriesRepository = getRepository(CategoryModel);
+
+    const categories = await categoriesRepository.find();
+
+    return response.json(categories);
+  }
 }

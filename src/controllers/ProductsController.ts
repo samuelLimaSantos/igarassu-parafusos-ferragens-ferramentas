@@ -1,15 +1,23 @@
 import { Response, Request } from 'express';
 import { getRepository } from 'typeorm';
 import ProductsModel from '../models/Products';
-import CategoryModel from '../models/Categories';
+import CategoriesModel from '../models/Categories';
+import CheckCategoryAlreadyExistsAndCreate from '../services/CheckCategoryAlreadyExistsAndCreate';
+import CheckProductAlreadyExists from '../services/CheckProductAlreadyExists';
+import CreateCodeSeral from '../services/CreateCodeSerial';
+
+interface WhereProperties {
+  name?: string | undefined;
+  type?: string | undefined;
+  cod?: string | undefined;
+  category_id?: string | undefined;
+}
 
 export default class ProductsController {
-  async create(request: Request, response: Response) {
+  async create(request: Request, response: Response) : Promise<Response<any>> {
     const productsRepository = getRepository(ProductsModel);
-    const categoryRepository = getRepository(CategoryModel);
 
     const {
-      cod,
       name,
       quantity,
       type,
@@ -19,47 +27,24 @@ export default class ProductsController {
       category,
     } = request.body;
 
-    // Bloco de criar categoria
-    const categoryAlreadyExists = await categoryRepository.findOne({
-      where: {
-        title: category,
-      },
+    const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
+    const categoryId = await checkCategoryAlreadyExistsAndCreate.execute(category);
+
+    const checkProductAlreadyExists = new CheckProductAlreadyExists();
+    const isProductExists = await checkProductAlreadyExists.execute({
+      name,
+      quantity,
     });
 
-    if (!categoryAlreadyExists) {
-      const newCategory = categoryRepository.create({ title: category });
-      await categoryRepository.save(newCategory);
+    if (isProductExists) {
+      return response.json(isProductExists);
     }
 
-    const categoryId = await categoryRepository.findOne({
-      where: {
-        title: category,
-      },
+    const createCodeSeral = new CreateCodeSeral();
+
+    const code = await createCodeSeral.execute({
+      categoryId,
     });
-    // Fim bloco de criar categoria
-
-    //  Bloco de verificar se o produto já existe
-    const productAlreadyExists = await productsRepository.findOne({
-      where: {
-        name,
-      },
-    });
-
-    if (productAlreadyExists) {
-      productAlreadyExists.quantity += quantity;
-      productsRepository.save(productAlreadyExists);
-      return response.status(201).json(productAlreadyExists);
-    }
-
-    //  Fim da verificação se o produto já existe
-
-    const quantityOfProductsPerCategory = await productsRepository.find({
-      where: {
-        category_id: categoryId?.id,
-      },
-    });
-
-    const code = `${categoryId?.id}/${quantityOfProductsPerCategory.length + 1}`;
 
     const product = productsRepository.create({
       cod: code,
@@ -69,11 +54,76 @@ export default class ProductsController {
       unity,
       price,
       description,
-      category_id: Number(categoryId?.id),
+      category_id: Number(categoryId),
     });
 
     await productsRepository.save(product);
 
     return response.status(201).json(product);
+  }
+
+  async index(request: Request, response: Response) : Promise<Response<any>> {
+    const productsRepository = getRepository(ProductsModel);
+
+    const products = await productsRepository.find();
+
+    return response.json(products);
+  }
+
+  async filtered(request: Request, response: Response) : Promise<Response<any>> {
+    const filters = request.query;
+
+    const name = filters.name as string;
+    const type = filters.type as string;
+    const cod = filters.cod as string;
+    const category = filters.category as string;
+
+    const where = {} as WhereProperties;
+
+    if (name) {
+      where.name = name;
+    }
+
+    if (type) {
+      where.type = type;
+    }
+
+    if (cod) {
+      where.cod = cod;
+    }
+
+    if (category) {
+      const categoryRepository = getRepository(CategoriesModel);
+      const categoryObject = await categoryRepository.findOne({
+        where: {
+          title: category,
+        },
+      });
+
+      const categoryId = categoryObject?.id;
+
+      where.category_id = categoryId;
+    }
+
+    const productsRepository = getRepository(ProductsModel);
+    const products = await productsRepository.find({
+      where,
+    });
+
+    return response.json(products);
+  }
+
+  async store(request: Request, response: Response): Promise<Response<any>> {
+    const { id } = request.params;
+
+    const productsRepository = getRepository(ProductsModel);
+
+    const product = await productsRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    return response.json(product);
   }
 }

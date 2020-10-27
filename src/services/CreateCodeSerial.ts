@@ -15,8 +15,18 @@ export default class CreateCodeSerial {
       },
     });
 
-    const code = `${categoryId}/${quantityOfProductsPerCategory.length + 1}`;
+    let cod = `${categoryId}/${quantityOfProductsPerCategory.length + 1}`;
 
-    return code;
+    const codeAlreadyExists = await productsRepository.findOne({
+      where: {
+        cod,
+      },
+    });
+
+    if (codeAlreadyExists) {
+      cod = `${categoryId}/${quantityOfProductsPerCategory.length + 2}`;
+    }
+
+    return cod;
   }
 }

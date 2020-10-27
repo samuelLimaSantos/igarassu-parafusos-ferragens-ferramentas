@@ -126,4 +126,65 @@ export default class ProductsController {
 
     return response.json(product);
   }
+
+  async update(request: Request, response: Response) : Promise<Response<any>> {
+    const {
+      name,
+      quantity,
+      type,
+      unity,
+      price,
+      description,
+      category,
+    } = request.body;
+
+    const { id } = request.params;
+
+    const productRepository = getRepository(ProductsModel);
+
+    const product = await productRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!product) {
+      return response.status(404).json({
+        message: 'Product not found',
+      });
+    }
+
+    const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
+    const categoryId = await checkCategoryAlreadyExistsAndCreate.execute(category);
+
+    const createCodeSeral = new CreateCodeSeral();
+    const codeSerial = await createCodeSeral.execute({
+      categoryId,
+    });
+
+    product.name = name;
+    product.quantity = quantity;
+    product.type = type;
+    product.unity = unity;
+    product.price = price;
+    product.description = description;
+    product.category_id = Number(categoryId);
+    product.cod = codeSerial;
+
+    await productRepository.save(product);
+
+    return response.json(product);
+  }
+
+  async delete(request: Request, response: Response) : Promise<Response<any>> {
+    const { id } = request.params;
+
+    const productRepository = getRepository(ProductsModel);
+
+    await productRepository.delete(id);
+
+    return response.json({
+      message: 'success',
+    });
+  }
 }

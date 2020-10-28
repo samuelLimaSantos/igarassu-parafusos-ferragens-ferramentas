@@ -55,6 +55,7 @@ export default class ProductsController {
       price,
       description,
       category_id: Number(categoryId),
+      transaction_type: 'income',
     });
 
     await productsRepository.save(product);
@@ -136,6 +137,7 @@ export default class ProductsController {
       price,
       description,
       category,
+      transaction_type,
     } = request.body;
 
     const { id } = request.params;
@@ -170,6 +172,7 @@ export default class ProductsController {
     product.description = description;
     product.category_id = Number(categoryId);
     product.cod = codeSerial;
+    product.transaction_type = transaction_type;
 
     await productRepository.save(product);
 
@@ -186,5 +189,24 @@ export default class ProductsController {
     return response.json({
       message: 'success',
     });
+  }
+
+  async report(request: Request, response: Response) : Promise<Response<any>> {
+    const productsRepository = getRepository(ProductsModel);
+
+    const products = await productsRepository.find({
+      select: [
+        'cod',
+        'name',
+        'quantity',
+        'updated_at',
+        'transaction_type',
+      ],
+      order: {
+        category_id: 'ASC',
+      },
+    });
+
+    return response.json(products);
   }
 }

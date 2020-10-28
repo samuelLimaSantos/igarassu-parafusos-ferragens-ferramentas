@@ -4,6 +4,8 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import Category from './Categories';
 
@@ -36,4 +38,13 @@ export default class Products {
   @ManyToOne(() => Category, (category) => category.product, { eager: true })
   @JoinColumn({ name: 'category_id' })
   category_id: number;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
+
+  @Column()
+  transaction_type: string;
 }

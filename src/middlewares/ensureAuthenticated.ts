@@ -12,7 +12,7 @@ export default function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
-) {
+): void {
   const authBearer = request.headers.authorization;
 
   if (!authBearer) {

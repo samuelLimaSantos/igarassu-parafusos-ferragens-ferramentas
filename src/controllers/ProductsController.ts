@@ -4,6 +4,7 @@ import ProductsModel from '../models/Products';
 import CategoriesModel from '../models/Categories';
 import CheckCategoryAlreadyExistsAndCreate from '../services/CheckCategoryAlreadyExistsAndCreate';
 import CheckProductAlreadyExists from '../services/CheckProductAlreadyExists';
+import CreateProduct from '../services/CreateProduct';
 import CreateCodeSeral from '../services/CreateCodeSerial';
 
 interface WhereProperties {
@@ -14,53 +15,55 @@ interface WhereProperties {
 }
 
 export default class ProductsController {
-  async create(request: Request, response: Response) : Promise<Response<any>> {
-    const productsRepository = getRepository(ProductsModel);
+  async create(request: Request, response: Response) : Promise<Response<ProductsModel>> {
+    try {
+      const productsRepository = getRepository(ProductsModel);
 
-    const {
-      name,
-      quantity,
-      type,
-      unity,
-      price,
-      description,
-      category,
-    } = request.body;
+      const {
+        name,
+        quantity,
+        type,
+        unity,
+        price,
+        description,
+        category,
+      } = request.body;
 
-    const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
-    const categoryId = await checkCategoryAlreadyExistsAndCreate.execute(category);
+      const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
+      const categoryId = await checkCategoryAlreadyExistsAndCreate.execute(category);
 
-    const checkProductAlreadyExists = new CheckProductAlreadyExists();
-    const isProductExists = await checkProductAlreadyExists.execute({
-      name,
-      quantity,
-    });
+      const checkProductAlreadyExists = new CheckProductAlreadyExists();
 
-    if (isProductExists) {
-      return response.json(isProductExists);
+      await checkProductAlreadyExists.execute({
+        name,
+        quantity,
+      });
+
+      const createCodeSeral = new CreateCodeSeral();
+
+      const code = await createCodeSeral.execute({
+        categoryId,
+      });
+
+      const createProduct = new CreateProduct();
+
+      const product = await createProduct.execute({
+        cod: code,
+        category_id: Number(categoryId),
+        description,
+        name,
+        price,
+        quantity,
+        type,
+        unity,
+      });
+
+      await productsRepository.save(product);
+
+      return response.status(201).json(product);
+    } catch (err) {
+      return response.status(400).json(err.message);
     }
-
-    const createCodeSeral = new CreateCodeSeral();
-
-    const code = await createCodeSeral.execute({
-      categoryId,
-    });
-
-    const product = productsRepository.create({
-      cod: code,
-      name,
-      quantity,
-      type,
-      unity,
-      price,
-      description,
-      category_id: Number(categoryId),
-      transaction_type: 'income',
-    });
-
-    await productsRepository.save(product);
-
-    return response.status(201).json(product);
   }
 
   async index(request: Request, response: Response) : Promise<Response<any>> {

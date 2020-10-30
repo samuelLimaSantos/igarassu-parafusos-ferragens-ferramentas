@@ -8,7 +8,7 @@ interface CheckProductAlreadyExistsDTO {
 
 export default class CheckProductAlreadyExists {
   async execute({ name, quantity } :CheckProductAlreadyExistsDTO)
-  : Promise<ProductsModel |boolean> {
+  : Promise<void> {
     const productsRepository = getRepository(ProductsModel);
 
     const productAlreadyExists = await productsRepository.findOne({
@@ -20,9 +20,7 @@ export default class CheckProductAlreadyExists {
     if (productAlreadyExists) {
       productAlreadyExists.quantity += quantity;
       productsRepository.save(productAlreadyExists);
-      return productAlreadyExists;
+      throw new Error('Product already exists and quantity was incremented.');
     }
-
-    return false;
   }
 }

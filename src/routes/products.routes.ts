@@ -1,9 +1,12 @@
 import { Router } from 'express';
 import ProductsController from '../controllers/ProductsController';
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const routes = Router();
 
 const productsController = new ProductsController();
+
+routes.use(ensureAuthenticated);
 
 routes.post('/', productsController.create);
 routes.get('/', productsController.index);

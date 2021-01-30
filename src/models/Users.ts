@@ -1,6 +1,7 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn,
+  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany,
 } from 'typeorm';
+import Transaction from './Transactions';
 
 @Entity('users')
 export default class UserModel {
@@ -10,7 +11,7 @@ export default class UserModel {
   @Column()
   login: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @CreateDateColumn()
@@ -18,4 +19,7 @@ export default class UserModel {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user_id)
+  transactions: Transaction;
 }

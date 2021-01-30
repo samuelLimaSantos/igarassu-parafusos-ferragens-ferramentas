@@ -10,7 +10,7 @@ interface Request {
 }
 
 interface Response {
-  user: UserModel,
+  id: string,
   token: string;
 }
 
@@ -19,6 +19,7 @@ export default class ValidadeSession {
     const userRepository = getRepository(UserModel);
 
     const user = await userRepository.findOne({
+      select: ['id', 'password'],
       where: {
         login,
       },
@@ -41,8 +42,10 @@ export default class ValidadeSession {
       expiresIn,
     });
 
+    const { id } = user;
+
     return {
-      user,
+      id,
       token,
     };
   }

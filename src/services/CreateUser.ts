@@ -8,10 +8,11 @@ interface Request {
 }
 
 export default class CreateUser {
-  public async execute({ login, password }: Request): Promise<UserModel> {
+  public async execute({ login, password }: Request): Promise<void> {
     const userRepository = getRepository(UserModel);
 
     const checkLogin = await userRepository.findOne({
+      select: ['login'],
       where: {
         login,
       },
@@ -30,6 +31,6 @@ export default class CreateUser {
 
     await userRepository.save(user);
 
-    return user;
+    return;
   }
 }

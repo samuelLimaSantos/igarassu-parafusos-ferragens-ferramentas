@@ -6,8 +6,10 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import Category from './Categories';
+import Transaction from './Transactions';
 
 @Entity('products')
 export default class Products {
@@ -38,6 +40,9 @@ export default class Products {
   @ManyToOne(() => Category, (category) => category.product, { eager: true })
   @JoinColumn({ name: 'category_id' })
   category_id: number;
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user_id)
+  transactions: Transaction;
 
   @CreateDateColumn()
   created_at: Date;

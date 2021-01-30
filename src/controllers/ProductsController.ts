@@ -6,6 +6,8 @@ import CheckCategoryAlreadyExistsAndCreate from '../services/CheckCategoryAlread
 import CheckProductAlreadyExists from '../services/CheckProductAlreadyExists';
 import CreateProduct from '../services/CreateProduct';
 import CreateCodeSeral from '../services/CreateCodeSerial';
+import CreateTransactionHistory from '../services/CreateTransactionHistory';
+import calculateTransactionTypeByQuantity from '../utils/CalculateTransactionTypeByQuantity';
 
 interface WhereProperties {
   name?: string | undefined;
@@ -27,6 +29,7 @@ export default class ProductsController {
         price,
         description,
         category,
+        user_id,
       } = request.body;
 
       const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
@@ -59,6 +62,15 @@ export default class ProductsController {
       });
 
       await productsRepository.save(product);
+
+      const createTransactionHistory = new CreateTransactionHistory();
+
+      await createTransactionHistory.execute({
+        user_id,
+        product_id: product.id,
+        quantity,
+        transaction_type: 'income',
+      });
 
       return response.status(201).json(product);
     } catch (err) {
@@ -133,14 +145,13 @@ export default class ProductsController {
 
   async update(request: Request, response: Response) : Promise<Response<any>> {
     const {
+      user_id,
       name,
       quantity,
       type,
       unity,
       price,
       description,
-      category,
-      transaction_type,
     } = request.body;
 
     const { id } = request.params;
@@ -159,12 +170,18 @@ export default class ProductsController {
       });
     }
 
-    const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
-    const categoryId = await checkCategoryAlreadyExistsAndCreate.execute(category);
+    const transaction_type = calculateTransactionTypeByQuantity({
+      actualQuantity: product.quantity,
+      newQuantity: quantity,
+    });
 
-    const createCodeSeral = new CreateCodeSeral();
-    const codeSerial = await createCodeSeral.execute({
-      categoryId,
+    const createTransactionHistory = new CreateTransactionHistory();
+
+    await createTransactionHistory.execute({
+      product_id: product.id,
+      user_id,
+      quantity: Math.abs(quantity - product.quantity),
+      transaction_type,
     });
 
     product.name = name;
@@ -173,13 +190,10 @@ export default class ProductsController {
     product.unity = unity;
     product.price = price;
     product.description = description;
-    product.category_id = Number(categoryId);
-    product.cod = codeSerial;
-    product.transaction_type = transaction_type;
 
     await productRepository.save(product);
 
-    return response.json(product);
+    return response.status(200).json({ message: 'User updated with success' });
   }
 
   async delete(request: Request, response: Response) : Promise<Response<any>> {
@@ -192,24 +206,5 @@ export default class ProductsController {
     return response.json({
       message: 'success',
     });
-  }
-
-  async report(request: Request, response: Response) : Promise<Response<any>> {
-    const productsRepository = getRepository(ProductsModel);
-
-    const products = await productsRepository.find({
-      select: [
-        'cod',
-        'name',
-        'quantity',
-        'updated_at',
-        'transaction_type',
-      ],
-      order: {
-        category_id: 'ASC',
-      },
-    });
-
-    return response.json(products);
   }
 }

@@ -12,11 +12,11 @@ export default function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
-): void {
+): void | Response<any> {
   const authBearer = request.headers.authorization;
 
   if (!authBearer) {
-    throw new Error('Token JWT is missing');
+    return response.status(403).json({ message: 'Token JWT is missing' });
   }
 
   const [, token] = authBearer.split(' ');
@@ -34,6 +34,6 @@ export default function ensureAuthenticated(
 
     next();
   } catch (err) {
-    throw new Error('Invalid JWT token');
+    return response.status(403).json({ message: err });
   }
 }

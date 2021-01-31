@@ -9,24 +9,21 @@ export default class CreateCodeSerial {
   async execute({ categoryId }: CodeSerialDTO): Promise<string> {
     const productsRepository = getRepository(ProductsModel);
 
-    const quantityOfProductsPerCategory = await productsRepository.find({
+    const lastItemRegistered = await productsRepository.findOne({
       where: {
         category_id: categoryId,
       },
-    });
-
-    let cod = `${categoryId}/${quantityOfProductsPerCategory.length + 1}`;
-
-    const codeAlreadyExists = await productsRepository.findOne({
-      where: {
-        cod,
+      order: {
+        created_at: 'DESC',
       },
     });
 
-    if (codeAlreadyExists) {
-      cod = `${categoryId}/${quantityOfProductsPerCategory.length + 2}`;
+    if (!lastItemRegistered) {
+      return `${categoryId}-1`;
     }
 
-    return cod;
+    const [, lastNumber] = lastItemRegistered?.cod.split('-');
+
+    return `${categoryId}-${Number(lastNumber) + 1}`;
   }
 }

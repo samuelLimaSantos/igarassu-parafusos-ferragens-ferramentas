@@ -7,6 +7,14 @@ usersRouter.post('/', async (request, response) => {
   try {
     const { login, password } = request.body;
 
+    if (!login || !password) {
+      throw new Error('Login/password is required');
+    }
+
+    if (password.length < 6) {
+      throw new Error('Password must have 6 characters');
+    }
+
     const createUser = new CreateUser();
 
     await createUser.execute({

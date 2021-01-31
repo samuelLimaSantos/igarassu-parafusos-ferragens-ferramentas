@@ -18,6 +18,7 @@ routes.get('/', productsController.index);
 routes.get('/filter', productsController.filtered);
 routes.get('/unique/:id', productsController.store);
 routes.put('/:id', productsController.update);
+routes.put('/inventory/:product_id', productsController.updateInventoryControl);
 routes.delete('/:id', productsController.delete);
 
 routes.post('/import', upload.single('file'), importController.create);

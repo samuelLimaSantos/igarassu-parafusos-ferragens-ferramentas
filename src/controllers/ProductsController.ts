@@ -8,6 +8,7 @@ import CreateProduct from '../services/CreateProduct';
 import CreateCodeSeral from '../services/CreateCodeSerial';
 import CreateTransactionHistory from '../services/CreateTransactionHistory';
 import calculateTransactionTypeByQuantity from '../utils/CalculateTransactionTypeByQuantity';
+import UpdateInventoryControlService from '../services/UpdateInventoryControlService';
 
 interface WhereProperties {
   name?: string | undefined;
@@ -39,7 +40,6 @@ export default class ProductsController {
 
       await checkProductAlreadyExists.execute({
         name,
-        quantity,
       });
 
       const createCodeSeral = new CreateCodeSeral();
@@ -175,21 +175,23 @@ export default class ProductsController {
       newQuantity: quantity,
     });
 
-    const createTransactionHistory = new CreateTransactionHistory();
+    if (quantity && quantity !== product.quantity) {
+      const createTransactionHistory = new CreateTransactionHistory();
 
-    await createTransactionHistory.execute({
-      product_id: product.id,
-      user_id,
-      quantity: Math.abs(quantity - product.quantity),
-      transaction_type,
-    });
+      await createTransactionHistory.execute({
+        product_id: product.id,
+        user_id,
+        quantity: Math.abs(quantity - product.quantity),
+        transaction_type,
+      });
+    }
 
-    product.name = name;
-    product.quantity = quantity;
-    product.type = type;
-    product.unity = unity;
-    product.price = price;
-    product.description = description;
+    product.name = name || product.name;
+    product.quantity = quantity || product.quantity;
+    product.type = type || quantity.type;
+    product.unity = unity || quantity.unity;
+    product.price = price || quantity.price;
+    product.description = description || quantity.description;
 
     await productRepository.save(product);
 
@@ -206,5 +208,25 @@ export default class ProductsController {
     return response.json({
       message: 'success',
     });
+  }
+
+  async updateInventoryControl(request: Request, response: Response): Promise<Response<any>> {
+    try {
+      const { user_id, quantity, transaction_type } = request.body;
+      const { product_id } = request.params;
+
+      const updateInventoryControlService = new UpdateInventoryControlService();
+
+      await updateInventoryControlService.execute({
+        user_id,
+        product_id,
+        quantity,
+        transaction_type,
+      });
+
+      return response.status(200).json({ message: 'Inventory updated with success' });
+    } catch (error) {
+      return response.status(500).json({ message: error.message });
+    }
   }
 }

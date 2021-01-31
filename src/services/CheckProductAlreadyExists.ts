@@ -3,11 +3,10 @@ import ProductsModel from '../models/Products';
 
 interface CheckProductAlreadyExistsDTO {
   name: string;
-  quantity: number;
 }
 
 export default class CheckProductAlreadyExists {
-  async execute({ name, quantity } :CheckProductAlreadyExistsDTO)
+  async execute({ name } :CheckProductAlreadyExistsDTO)
   : Promise<void> {
     const productsRepository = getRepository(ProductsModel);
 
@@ -18,9 +17,7 @@ export default class CheckProductAlreadyExists {
     });
 
     if (productAlreadyExists) {
-      productAlreadyExists.quantity += quantity;
-      productsRepository.save(productAlreadyExists);
-      throw new Error('Product already exists and quantity was incremented.');
+      throw new Error('Product already exists.');
     }
   }
 }

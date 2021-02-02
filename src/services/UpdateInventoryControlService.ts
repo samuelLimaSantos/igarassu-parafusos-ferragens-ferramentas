@@ -45,7 +45,6 @@ export default class UpdateInventoryControl {
       quantity,
       transaction_type,
       user_id,
-
     });
   }
 }

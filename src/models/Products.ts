@@ -49,7 +49,4 @@ export default class Products {
 
   @UpdateDateColumn()
   updated_at: Date;
-
-  @Column()
-  transaction_type: string;
 }

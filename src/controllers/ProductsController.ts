@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import ProductsModel from '../models/Products';
 import CategoriesModel from '../models/Categories';
 import CheckCategoryAlreadyExistsAndCreate from '../services/CheckCategoryAlreadyExistsAndCreate';
-import CheckProductAlreadyExists from '../services/CheckProductAlreadyExists';
+import CheckProductAlreadyExistsByCategory from '../services/CheckProductAlreadyExistsByCategory';
 import CreateProduct from '../services/CreateProduct';
 import CreateCodeSeral from '../services/CreateCodeSerial';
 import CreateTransactionHistory from '../services/CreateTransactionHistory';
@@ -36,10 +36,11 @@ export default class ProductsController {
       const checkCategoryAlreadyExistsAndCreate = new CheckCategoryAlreadyExistsAndCreate();
       const categoryId = await checkCategoryAlreadyExistsAndCreate.execute(category);
 
-      const checkProductAlreadyExists = new CheckProductAlreadyExists();
+      const checkProductAlreadyExistsByCategory = new CheckProductAlreadyExistsByCategory();
 
-      await checkProductAlreadyExists.execute({
+      await checkProductAlreadyExistsByCategory.execute({
         name,
+        categoryId: Number(categoryId),
       });
 
       const createCodeSeral = new CreateCodeSeral();
@@ -188,10 +189,10 @@ export default class ProductsController {
 
     product.name = name || product.name;
     product.quantity = quantity || product.quantity;
-    product.type = type || quantity.type;
-    product.unity = unity || quantity.unity;
-    product.price = price || quantity.price;
-    product.description = description || quantity.description;
+    product.type = type || product.type;
+    product.unity = unity || product.unity;
+    product.price = price || product.price;
+    product.description = description || product.description;
 
     await productRepository.save(product);
 

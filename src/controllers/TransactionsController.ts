@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import transactionsModel from '../models/Transactions';
+import productModel from '../models/Products';
 
 export default class TransactionsController {
   async index(request: Request, response: Response) : Promise<Response<any>> {
@@ -17,12 +18,18 @@ export default class TransactionsController {
         'products.id',
         'products.name',
         'products.cod',
-        'products.quantity',
       ])
       .leftJoin('transactions.user_id', 'users')
       .leftJoin('transactions.product_id', 'products')
       .getMany();
 
-    return response.status(200).json(transactions);
+    const responseQuantity = await getRepository(productModel).findOne({
+      select: ['id', 'quantity'],
+      where: {
+        id: product_id,
+      },
+    });
+
+    return response.status(200).json({ transactions, quantity: responseQuantity?.quantity });
   }
 }

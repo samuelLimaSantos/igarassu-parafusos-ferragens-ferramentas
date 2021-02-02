@@ -25,6 +25,8 @@ export default class CreateProduct {
   } : Request): Promise<ProductsModel> {
     const productsRepository = getRepository(ProductsModel);
 
+    if (quantity < 1) throw new Error('Quantity must be one or more.');
+
     const product = productsRepository.create({
       cod,
       name,
@@ -34,7 +36,6 @@ export default class CreateProduct {
       price,
       description,
       category_id,
-      transaction_type: 'income',
     });
 
     await productsRepository.save(product);

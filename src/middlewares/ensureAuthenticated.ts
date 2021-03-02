@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 import authConfig from '../config/authConfig';
+import { AppError } from '../errors/AppError';
 
 interface TokenPayload {
   iat: number;
@@ -23,17 +24,13 @@ export default function ensureAuthenticated(
 
   const { secret } = authConfig.jwt;
 
-  try {
-    const decoded = verify(token, secret);
+  const decoded = verify(token, secret);
 
-    const { sub } = decoded as TokenPayload;
+  const { sub } = decoded as TokenPayload;
 
-    request.user = {
-      id: sub,
-    };
+  request.user = {
+    id: sub,
+  };
 
-    next();
-  } catch (err) {
-    return response.status(403).json({ message: err });
-  }
+  next();
 }

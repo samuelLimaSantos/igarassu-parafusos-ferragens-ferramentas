@@ -1,5 +1,7 @@
 import { getRepository } from 'typeorm';
+import { AppError } from '../errors/AppError';
 import ProductsModel from '../models/Products';
+import { productErrors } from '../errors/utils/ErrorsDescriptions';
 
 interface CheckProductAlreadyExistsByCategoryDTO {
   name: string;
@@ -19,7 +21,7 @@ export default class CheckProductAlreadyExistsByCategory {
     });
 
     if (productAlreadyExists) {
-      throw new Error('Product already exists in this category.');
+      throw new AppError(productErrors.productAlreadyExists);
     }
   }
 }

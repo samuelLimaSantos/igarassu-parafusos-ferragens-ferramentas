@@ -6,7 +6,7 @@
   "author": "Samuel Santos <samuellima280499@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
@@ -32,10 +32,12 @@
     "cors": "^2.8.5",
     "csv-parse": "^4.14.2",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "pg": "^8.4.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.28"
+    "typeorm": "^0.2.28",
+    "yup": "^0.32.9"
   }
 }

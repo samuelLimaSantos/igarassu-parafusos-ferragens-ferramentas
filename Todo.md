@@ -6,5 +6,15 @@
 [x] - Checar se pode melhorar a lógica de criação de serial code
 [x] - Update de quantidade
 [x] - Testar os principais fluxos
-[] - Não deixar cadastrar um produto com quantidade negativa
-[]- Verificar erro na rota de update de produto
+[x] - Não deixar cadastrar um produto com quantidade negativa
+[x] - Utilizar YUP para as validações
+[x] - Refatorar as tratativas de erros e traduzir as mensagens.
+    [x] - Products
+    [x] - Transactions
+    [x] - Categories
+    [x] - Users
+    [x] - Session
+
+[] - Adicionar as flags de preço de compra e venda na table de products
+[] - Fazer o uuid ser gerado pelo back-end e não pelo banco
+

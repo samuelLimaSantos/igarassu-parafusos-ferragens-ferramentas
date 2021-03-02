@@ -1,4 +1,6 @@
 import { getRepository } from 'typeorm';
+import { AppError } from '../errors/AppError';
+import { productErrors } from '../errors/utils/ErrorsDescriptions';
 import ProductsModel from '../models/Products';
 import CreateTransactionHistory from './CreateTransactionHistory';
 
@@ -33,7 +35,7 @@ export default class UpdateInventoryControl {
     }
 
     if (product.quantity <= 0) {
-      throw new Error('The outcome value can not exceed or equal to the stock');
+      throw new AppError(productErrors.outcomeMoreThanIncome);
     }
 
     await productRepository.save(product);

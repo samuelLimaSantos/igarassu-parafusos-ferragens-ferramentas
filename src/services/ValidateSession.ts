@@ -3,6 +3,8 @@ import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import UserModel from '../models/Users';
 import authConfig from '../config/authConfig';
+import { AppError } from '../errors/AppError';
+import { sessionErrors } from '../errors/utils/ErrorsDescriptions';
 
 interface Request {
   login: string;
@@ -26,13 +28,13 @@ export default class ValidadeSession {
     });
 
     if (!user) {
-      throw new Error('Combination login/password does not match');
+      throw new AppError(sessionErrors.combinationsDoesNotMatch);
     }
 
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error('Combination login/password does not match');
+      throw new AppError(sessionErrors.combinationsDoesNotMatch);
     }
 
     const { secret, expiresIn } = authConfig.jwt;

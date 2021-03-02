@@ -16,7 +16,7 @@ sessionsRouter.post('/', async (request: Request, response: Response) => {
   });
 
   try {
-    await schema.validate(request.body, { abortEarly: false });
+    await schema.validate(request.body);
   } catch (error) {
     throw new AppError(error.errors);
   }

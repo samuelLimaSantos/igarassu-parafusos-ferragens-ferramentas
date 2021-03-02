@@ -50,7 +50,7 @@ export default class ProductsController {
     });
 
     try {
-      await schema.validate(request.body, { abortEarly: false });
+      await schema.validate(request.body, { abortEarly: true });
     } catch (error) {
       throw new AppError(error.errors);
     }
@@ -145,7 +145,7 @@ export default class ProductsController {
     });
 
     try {
-      await schema.validate(request.params, { abortEarly: false });
+      await schema.validate(request.params, { abortEarly: true });
     } catch (error) {
       throw new AppError(error.errors);
     }
@@ -190,8 +190,8 @@ export default class ProductsController {
     });
 
     try {
-      await schema.validate(request.body, { abortEarly: false });
-      await schemaParams.validate(request.params, { abortEarly: false });
+      await schema.validate(request.body, { abortEarly: true });
+      await schemaParams.validate(request.params, { abortEarly: true });
     } catch (error) {
       throw new AppError(error.errors);
     }
@@ -244,7 +244,7 @@ export default class ProductsController {
     });
 
     try {
-      await schema.validate(request.params, { abortEarly: false });
+      await schema.validate(request.params, { abortEarly: true });
     } catch (error) {
       throw new AppError(error.errors);
     }
@@ -271,7 +271,7 @@ export default class ProductsController {
     });
 
     try {
-      await schema.validate(request.body, { abortEarly: false });
+      await schema.validate(request.body, { abortEarly: true });
     } catch (error) {
       throw new AppError(error.errors);
     }

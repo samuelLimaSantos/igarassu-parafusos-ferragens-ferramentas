@@ -16,7 +16,7 @@ usersRouter.post('/', async (request, response) => {
   });
 
   try {
-    await schema.validate(request.body, { abortEarly: false });
+    await schema.validate(request.body, { abortEarly: true });
   } catch (error) {
     throw new AppError(error.errors);
   }

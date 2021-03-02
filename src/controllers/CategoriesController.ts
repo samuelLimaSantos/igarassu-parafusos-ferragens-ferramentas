@@ -14,7 +14,7 @@ export default class CategoriesController {
     });
 
     try {
-      await schema.validate(request.body, { abortEarly: false });
+      await schema.validate(request.body, { abortEarly: true });
     } catch (error) {
       throw new AppError(error.errors);
     }

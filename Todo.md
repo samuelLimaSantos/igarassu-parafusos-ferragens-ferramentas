@@ -20,6 +20,6 @@
 [x] - Fazer o uuid ser gerado pelo back-end e não pelo banco
 [] - Adicionar paginação nas consultas
   [x] - Todos os produtos
-  [] - Produtos filtrados
+  [x] - Produtos filtrados
   [] - Transações
 [] - Refatorar a parte de paginação

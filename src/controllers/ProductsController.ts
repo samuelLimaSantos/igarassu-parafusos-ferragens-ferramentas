@@ -1,5 +1,5 @@
 import { Response, Request } from 'express';
-import { getRepository } from 'typeorm';
+import { getRepository, getCustomRepository } from 'typeorm';
 import * as yup from 'yup';
 import ProductsModel from '../models/Products';
 import CategoriesModel from '../models/Categories';
@@ -12,6 +12,7 @@ import calculateTransactionTypeByQuantity from '../utils/CalculateTransactionTyp
 import UpdateInventoryControlService from '../services/UpdateInventoryControlService';
 import { productErrors } from '../errors/utils/ErrorsDescriptions';
 import { AppError } from '../errors/AppError';
+import { ProductsRepository } from '../repositories/ProductsRepository';
 
 export default class ProductsController {
   async create(request: Request, response: Response) : Promise<Response<ProductsModel>> {
@@ -101,7 +102,6 @@ export default class ProductsController {
   async index(request: Request, response: Response) : Promise<Response<any>> {
     const { page } = request.query;
     const pageParse = Number(page);
-    const take = 10;
 
     const schema = yup.object().shape({
       page: yup.string().required(productErrors.pageRequired),
@@ -113,27 +113,31 @@ export default class ProductsController {
       throw new AppError(error.errors);
     }
 
-    const productsRepository = getRepository(ProductsModel);
+    const productsRepository = getCustomRepository(ProductsRepository);
 
-    const [products, count] = await productsRepository.findAndCount({
-      skip: pageParse === 1 ? 0 : (pageParse - 1) * take,
-      take,
-      order: { created_at: 'DESC' },
+    const products = await productsRepository.findAndPaginate({
+      pageParse,
+      take: 10,
     });
 
-    const totalPages = Math.ceil(count / take);
-
-    return response.json({
-      products,
-      totalProducts: count,
-      totalPages,
-      previousPage: pageParse === 1 ? null : pageParse - 1,
-      nextPage: pageParse === totalPages ? null : pageParse + 1,
-    });
+    return response.json(products);
   }
 
   async filtered(request: Request, response: Response) : Promise<Response<any>> {
     const where = request.query;
+
+    const pageParse = Number(where.page);
+
+    const schema = yup.object().shape({
+      page: yup.string().required(productErrors.pageRequired),
+    });
+
+    try {
+      await schema.validate(request.query);
+      delete where.page;
+    } catch (error) {
+      throw new AppError(error.errors);
+    }
 
     Object.keys(where).forEach((prop) => {
       if (!where[prop]) {
@@ -155,9 +159,11 @@ export default class ProductsController {
       delete where.category;
     }
 
-    const productsRepository = getRepository(ProductsModel);
-    const products = await productsRepository.find({
+    const productsRepository = getCustomRepository(ProductsRepository);
+    const products = await productsRepository.findAndPaginate({
       where,
+      pageParse,
+      take: 10,
     });
 
     return response.json(products);

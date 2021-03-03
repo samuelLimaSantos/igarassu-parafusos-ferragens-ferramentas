@@ -99,11 +99,37 @@ export default class ProductsController {
   }
 
   async index(request: Request, response: Response) : Promise<Response<any>> {
+    const { page } = request.query;
+    const pageParse = Number(page);
+    const take = 10;
+
+    const schema = yup.object().shape({
+      page: yup.string().required(productErrors.pageRequired),
+    });
+
+    try {
+      await schema.validate(request.query);
+    } catch (error) {
+      throw new AppError(error.errors);
+    }
+
     const productsRepository = getRepository(ProductsModel);
 
-    const products = await productsRepository.find();
+    const [products, count] = await productsRepository.findAndCount({
+      skip: pageParse === 1 ? 0 : (pageParse - 1) * take,
+      take,
+      order: { created_at: 'DESC' },
+    });
 
-    return response.json(products);
+    const totalPages = Math.ceil(count / take);
+
+    return response.json({
+      products,
+      totalProducts: count,
+      totalPages,
+      previousPage: pageParse === 1 ? null : pageParse - 1,
+      nextPage: pageParse === totalPages ? null : pageParse + 1,
+    });
   }
 
   async filtered(request: Request, response: Response) : Promise<Response<any>> {

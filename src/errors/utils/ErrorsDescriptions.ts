@@ -16,6 +16,7 @@ const productErrors = {
   productIdRequired: 'O id do produto é obrigatório',
   transactionTypeRequired: 'O tipo da transação é obrigatório',
   outcomeMoreThanIncome: 'A quantidade de entrada não pode ser maior que o valor total atual!',
+  pageRequired: 'O número da página é obrigatória!',
 };
 
 const categoriesErrors = {

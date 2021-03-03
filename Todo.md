@@ -18,4 +18,8 @@
 [x] - Adicionar as flags de preço de compra e venda na table de products
 [x] - Fazer alterações nas rotas
 [x] - Fazer o uuid ser gerado pelo back-end e não pelo banco
-
+[] - Adicionar paginação nas consultas
+  [x] - Todos os produtos
+  [] - Produtos filtrados
+  [] - Transações
+[] - Refatorar a parte de paginação

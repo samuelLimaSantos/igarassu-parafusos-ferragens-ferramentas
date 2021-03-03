@@ -13,23 +13,18 @@ import UpdateInventoryControlService from '../services/UpdateInventoryControlSer
 import { productErrors } from '../errors/utils/ErrorsDescriptions';
 import { AppError } from '../errors/AppError';
 
-interface WhereProperties {
-  name?: string | undefined;
-  type?: string | undefined;
-  cod?: string | undefined;
-  category_id?: string | undefined;
-}
-
 export default class ProductsController {
   async create(request: Request, response: Response) : Promise<Response<ProductsModel>> {
     const productsRepository = getRepository(ProductsModel);
 
     const {
+      image_id,
       name,
       quantity,
       type,
       unity,
-      price,
+      price_sell,
+      price_buy,
       description,
       category,
       user_id,
@@ -43,10 +38,13 @@ export default class ProductsController {
         .required(productErrors.quantityRequired),
       type: yup.string().required(productErrors.typeRequired),
       unity: yup.string().required(productErrors.unityRequired),
-      price: yup.number().min(0.1, productErrors.priceLessThanZero)
-        .required(productErrors.priceRequired),
+      price_sell: yup.number().min(0.1, productErrors.priceLessThanZero)
+        .required(productErrors.priceSellRequired),
+      price_buy: yup.number().min(0.1, productErrors.priceLessThanZero)
+        .required(productErrors.priceBuyRequired),
       description: yup.string().required(productErrors.descriptionRequired),
       category: yup.string().required(productErrors.categoryRequired),
+      image_id: yup.number().min(0).required(productErrors.imageIdRequired),
     });
 
     try {
@@ -78,7 +76,9 @@ export default class ProductsController {
       category_id: Number(categoryId),
       description,
       name,
-      price,
+      price_sell,
+      price_buy,
+      image_id,
       quantity,
       type,
       unity,
@@ -168,7 +168,9 @@ export default class ProductsController {
       quantity,
       type,
       unity,
-      price,
+      price_sell,
+      price_buy,
+      image_id,
       description,
     } = request.body;
 
@@ -181,8 +183,10 @@ export default class ProductsController {
       quantity: yup.number().min(1, productErrors.quantityLessThanOne),
       type: yup.string(),
       unity: yup.string(),
-      price: yup.number().min(0.1, productErrors.priceLessThanZero),
       description: yup.string(),
+      price_sell: yup.number().min(0.1, productErrors.priceLessThanZero),
+      price_buy: yup.number().min(0.1, productErrors.priceLessThanZero),
+      image_id: yup.number().min(0),
     });
 
     const schemaParams = yup.object().shape({
@@ -228,7 +232,9 @@ export default class ProductsController {
     product.quantity = quantity || product.quantity;
     product.type = type || product.type;
     product.unity = unity || product.unity;
-    product.price = price || product.price;
+    product.price_buy = price_buy || product.price_buy;
+    product.price_sell = price_sell || product.price_sell;
+    product.image_id = image_id || product.image_id;
     product.description = description || product.description;
 
     await productRepository.save(product);

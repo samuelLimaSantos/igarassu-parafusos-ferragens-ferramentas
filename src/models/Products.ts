@@ -1,19 +1,20 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  PrimaryColumn,
 } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 import Category from './Categories';
 import Transaction from './Transactions';
 
 @Entity('products')
 export default class Products {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string;
 
   @Column()
@@ -32,7 +33,13 @@ export default class Products {
   unity: string;
 
   @Column()
-  price: number;
+  price_sell: number;
+
+  @Column()
+  price_buy: number;
+
+  @Column()
+  image_id: number;
 
   @Column()
   description: string;
@@ -49,4 +56,10 @@ export default class Products {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

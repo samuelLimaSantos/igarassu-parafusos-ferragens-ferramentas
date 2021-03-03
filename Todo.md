@@ -15,6 +15,7 @@
     [x] - Users
     [x] - Session
 
-[] - Adicionar as flags de preço de compra e venda na table de products
-[] - Fazer o uuid ser gerado pelo back-end e não pelo banco
+[x] - Adicionar as flags de preço de compra e venda na table de products
+[x] - Fazer alterações nas rotas
+[x] - Fazer o uuid ser gerado pelo back-end e não pelo banco
 

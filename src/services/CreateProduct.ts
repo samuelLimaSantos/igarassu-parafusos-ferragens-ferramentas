@@ -7,7 +7,9 @@ interface Request {
   quantity: number;
   type: string;
   unity: string;
-  price: number;
+  price_sell: number;
+  price_buy: number;
+  image_id: number;
   description: string;
   category_id: number;
 }
@@ -19,9 +21,11 @@ export default class CreateProduct {
     quantity,
     type,
     unity,
-    price,
     description,
     category_id,
+    price_buy,
+    price_sell,
+    image_id,
   } : Request): Promise<ProductsModel> {
     const productsRepository = getRepository(ProductsModel);
 
@@ -31,9 +35,12 @@ export default class CreateProduct {
       quantity,
       type,
       unity,
-      price,
       description,
       category_id,
+      image_id,
+      price_sell,
+      price_buy,
+
     });
 
     await productsRepository.save(product);

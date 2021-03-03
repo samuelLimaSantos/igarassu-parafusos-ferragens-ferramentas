@@ -1,19 +1,19 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  PrimaryColumn,
 } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 import Product from './Products';
 import User from './Users';
 
 @Entity('transactions')
 export default class Categories {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn()
   id: string;
 
   @ManyToOne(() => User, (user) => user.id)
@@ -35,4 +35,10 @@ export default class Categories {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

@@ -1,12 +1,13 @@
 import {
-  Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany,
+  Entity, Column, CreateDateColumn, UpdateDateColumn, OneToMany, PrimaryColumn,
 } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 import Transaction from './Transactions';
 
 @Entity('users')
 export default class UserModel {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryColumn()
+  readonly id: string;
 
   @Column()
   login: string;
@@ -22,4 +23,10 @@ export default class UserModel {
 
   @OneToMany(() => Transaction, (transaction) => transaction.user_id)
   transactions: Transaction;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuid();
+    }
+  }
 }

@@ -1,13 +1,13 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import {
   Repository,
   EntityRepository,
 } from 'typeorm';
 import Products from '../models/Products';
+import { takePages } from '../utils/Contants';
 
 interface PaginateProps {
-  pageParse: number;
-  take: number;
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  page: number;
   where?: object,
 }
 
@@ -18,31 +18,29 @@ interface FindPaginateResponse {
   previousPage: number | null,
   nextPage: number | null,
   totalProductsActualPage: number,
-
 }
 
 @EntityRepository(Products)
 class ProductsRepository extends Repository<Products> {
   async findAndPaginate({
-    pageParse,
-    take,
+    page,
     where,
   }: PaginateProps): Promise<FindPaginateResponse> {
     const [products, count] = await this.findAndCount({
-      skip: pageParse === 1 ? 0 : (pageParse - 1) * take,
-      take,
+      skip: page === 1 ? 0 : (page - 1) * takePages,
+      take: takePages,
       order: { created_at: 'DESC' },
       where: where || '',
     });
 
-    const totalPages = Math.ceil(count / take);
+    const totalPages = Math.ceil(count / takePages);
     return {
       products,
       totalProducts: count,
       totalProductsActualPage: products.length,
       totalPages,
-      previousPage: pageParse === 1 ? null : pageParse - 1,
-      nextPage: pageParse === totalPages ? null : pageParse + 1,
+      previousPage: page === 1 ? null : page - 1,
+      nextPage: page === totalPages ? null : page + 1,
     };
   }
 }

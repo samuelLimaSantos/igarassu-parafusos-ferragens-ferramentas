@@ -1,5 +1,5 @@
-import { getRepository } from 'typeorm';
-import ProductsModel from '../models/Products';
+import { getCustomRepository } from 'typeorm';
+import { ProductsRepository } from '../repositories/ProductsRepository';
 
 interface CodeSerialDTO {
   categoryId: string | undefined;
@@ -7,7 +7,7 @@ interface CodeSerialDTO {
 
 export default class CreateCodeSerial {
   async execute({ categoryId }: CodeSerialDTO): Promise<string> {
-    const productsRepository = getRepository(ProductsModel);
+    const productsRepository = getCustomRepository(ProductsRepository);
 
     const lastItemRegistered = await productsRepository.findOne({
       where: {

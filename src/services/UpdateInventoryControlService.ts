@@ -1,7 +1,7 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { AppError } from '../errors/AppError';
 import { productErrors } from '../errors/utils/ErrorsDescriptions';
-import ProductsModel from '../models/Products';
+import { ProductsRepository } from '../repositories/ProductsRepository';
 import CreateTransactionHistory from './CreateTransactionHistory';
 
 interface IRequestDTO {
@@ -15,7 +15,7 @@ export default class UpdateInventoryControl {
   public async execute({
     user_id, quantity, transaction_type, product_id,
   }: IRequestDTO): Promise<void> {
-    const productRepository = getRepository(ProductsModel);
+    const productRepository = getCustomRepository(ProductsRepository);
 
     const product = await productRepository.findOneOrFail({
       where: {

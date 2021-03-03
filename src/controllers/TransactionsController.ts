@@ -1,35 +1,34 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
-import transactionsModel from '../models/Transactions';
-import productModel from '../models/Products';
+import { getCustomRepository } from 'typeorm';
+import * as yup from 'yup';
+import { productErrors } from '../errors/utils/ErrorsDescriptions';
+import { AppError } from '../errors/AppError';
+import { TransactionsRepository } from '../repositories/TransactionsRepository';
 
 export default class TransactionsController {
   async index(request: Request, response: Response) : Promise<Response<any>> {
     const { product_id } = request.params;
+    const { page } = request.query;
 
-    const transactions = await getRepository(transactionsModel).createQueryBuilder('transactions')
-      .where({ product_id })
-      .select([
-        'transactions.id',
-        'transactions.transaction_type',
-        'transactions.created_at',
-        'transactions.quantity',
-        'users.login',
-        'products.id',
-        'products.name',
-        'products.cod',
-      ])
-      .leftJoin('transactions.user_id', 'users')
-      .leftJoin('transactions.product_id', 'products')
-      .getMany();
+    const pageParse = Number(page);
 
-    const responseQuantity = await getRepository(productModel).findOne({
-      select: ['id', 'quantity'],
-      where: {
-        id: product_id,
-      },
+    const schema = yup.object().shape({
+      page: yup.string().required(productErrors.pageRequired),
     });
 
-    return response.status(200).json({ transactions, quantity: responseQuantity?.quantity });
+    try {
+      await schema.validate(request.query);
+    } catch (error) {
+      throw new AppError(error.errors);
+    }
+
+    const transactionsRepository = getCustomRepository(TransactionsRepository);
+
+    const transactionsReport = await transactionsRepository.findAndPaginateById({
+      page: pageParse,
+      product_id,
+    });
+
+    return response.status(200).json({ transactionsReport });
   }
 }

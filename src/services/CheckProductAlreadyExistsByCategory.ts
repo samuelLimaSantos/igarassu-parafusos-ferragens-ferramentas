@@ -1,7 +1,7 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 import { AppError } from '../errors/AppError';
-import ProductsModel from '../models/Products';
 import { productErrors } from '../errors/utils/ErrorsDescriptions';
+import { ProductsRepository } from '../repositories/ProductsRepository';
 
 interface CheckProductAlreadyExistsByCategoryDTO {
   name: string;
@@ -11,7 +11,7 @@ interface CheckProductAlreadyExistsByCategoryDTO {
 export default class CheckProductAlreadyExistsByCategory {
   async execute({ name, categoryId } :CheckProductAlreadyExistsByCategoryDTO)
   : Promise<void> {
-    const productsRepository = getRepository(ProductsModel);
+    const productsRepository = getCustomRepository(ProductsRepository);
 
     const productAlreadyExists = await productsRepository.findOne({
       where: {

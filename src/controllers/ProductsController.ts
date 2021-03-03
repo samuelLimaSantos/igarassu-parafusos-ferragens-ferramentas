@@ -16,8 +16,6 @@ import { ProductsRepository } from '../repositories/ProductsRepository';
 
 export default class ProductsController {
   async create(request: Request, response: Response) : Promise<Response<ProductsModel>> {
-    const productsRepository = getRepository(ProductsModel);
-
     const {
       image_id,
       name,
@@ -85,6 +83,7 @@ export default class ProductsController {
       unity,
     });
 
+    const productsRepository = getCustomRepository(ProductsRepository);
     await productsRepository.save(product);
 
     const createTransactionHistory = new CreateTransactionHistory();
@@ -116,8 +115,7 @@ export default class ProductsController {
     const productsRepository = getCustomRepository(ProductsRepository);
 
     const products = await productsRepository.findAndPaginate({
-      pageParse,
-      take: 10,
+      page: pageParse,
     });
 
     return response.json(products);
@@ -162,8 +160,7 @@ export default class ProductsController {
     const productsRepository = getCustomRepository(ProductsRepository);
     const products = await productsRepository.findAndPaginate({
       where,
-      pageParse,
-      take: 10,
+      page: pageParse,
     });
 
     return response.json(products);
@@ -182,7 +179,7 @@ export default class ProductsController {
       throw new AppError(error.errors);
     }
 
-    const productsRepository = getRepository(ProductsModel);
+    const productsRepository = getCustomRepository(ProductsRepository);
 
     const product = await productsRepository.findOne({
       where: {
@@ -232,7 +229,7 @@ export default class ProductsController {
       throw new AppError(error.errors);
     }
 
-    const productRepository = getRepository(ProductsModel);
+    const productRepository = getCustomRepository(ProductsRepository);
 
     const product = await productRepository.findOne({
       where: {
@@ -287,7 +284,7 @@ export default class ProductsController {
       throw new AppError(error.errors);
     }
 
-    const productRepository = getRepository(ProductsModel);
+    const productRepository = getCustomRepository(ProductsRepository);
 
     await productRepository.delete(id);
 

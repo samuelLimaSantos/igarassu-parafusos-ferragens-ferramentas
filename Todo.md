@@ -18,8 +18,9 @@
 [x] - Adicionar as flags de preço de compra e venda na table de products
 [x] - Fazer alterações nas rotas
 [x] - Fazer o uuid ser gerado pelo back-end e não pelo banco
-[] - Adicionar paginação nas consultas
+[x] - Adicionar paginação nas consultas
   [x] - Todos os produtos
   [x] - Produtos filtrados
-  [] - Transações
-[] - Refatorar a parte de paginação
+  [x] - Transações
+[x] - Refatorar a parte de paginação
+[x] - Refatorar para todos os métodos de do controller de products utilizar o custom repository

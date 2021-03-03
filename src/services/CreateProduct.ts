@@ -1,5 +1,6 @@
-import { getRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import ProductsModel from '../models/Products';
+import { ProductsRepository } from '../repositories/ProductsRepository';
 
 interface Request {
   cod: string;
@@ -27,7 +28,7 @@ export default class CreateProduct {
     price_sell,
     image_id,
   } : Request): Promise<ProductsModel> {
-    const productsRepository = getRepository(ProductsModel);
+    const productsRepository = getCustomRepository(ProductsRepository);
 
     const product = productsRepository.create({
       cod,

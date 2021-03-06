@@ -18,6 +18,7 @@ interface FindPaginateResponse {
   previousPage: number | null,
   nextPage: number | null,
   totalProductsActualPage: number,
+  actualPage: number;
 }
 
 @EntityRepository(Products)
@@ -41,6 +42,7 @@ class ProductsRepository extends Repository<Products> {
       totalPages,
       previousPage: page === 1 ? null : page - 1,
       nextPage: page === totalPages ? null : page + 1,
+      actualPage: page,
     };
   }
 }

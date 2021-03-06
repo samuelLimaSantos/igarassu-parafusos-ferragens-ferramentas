@@ -24,3 +24,4 @@
   [x] - Transações
 [x] - Refatorar a parte de paginação
 [x] - Refatorar para todos os métodos de do controller de products utilizar o custom repository
+[] - Criar testes de integração para as principais rotas da aplicação.

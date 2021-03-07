@@ -39,7 +39,7 @@ class ProductsRepository extends Repository<Products> {
       products,
       totalProducts: count,
       totalProductsActualPage: products.length,
-      totalPages,
+      totalPages: totalPages === 0 ? 1 : totalPages,
       previousPage: page === 1 ? null : page - 1,
       nextPage: page === totalPages ? null : page + 1,
       actualPage: page,

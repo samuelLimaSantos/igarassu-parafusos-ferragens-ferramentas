@@ -26,12 +26,12 @@ export default class ProductsController {
       price_buy,
       description,
       category,
-      user_id,
+
     } = request.body;
 
+    const { id } = request.user;
+
     const schema = yup.object().shape({
-      user_id: yup.string().uuid(productErrors.userMustBeUuid)
-        .required(productErrors.userIdRequired),
       name: yup.string().required(productErrors.nameRequired),
       quantity: yup.number().min(1, productErrors.quantityLessThanOne)
         .required(productErrors.quantityRequired),
@@ -89,7 +89,7 @@ export default class ProductsController {
     const createTransactionHistory = new CreateTransactionHistory();
 
     await createTransactionHistory.execute({
-      user_id,
+      user_id: id,
       product_id: product.id,
       quantity,
       transaction_type: 'income',
@@ -192,7 +192,6 @@ export default class ProductsController {
 
   async update(request: Request, response: Response) : Promise<Response<any>> {
     const {
-      user_id,
       name,
       quantity,
       type,
@@ -205,9 +204,9 @@ export default class ProductsController {
 
     const { id } = request.params;
 
+    const user_id = request.user.id;
+
     const schema = yup.object().shape({
-      user_id: yup.string().uuid(productErrors.userMustBeUuid)
-        .required(productErrors.userIdRequired),
       name: yup.string(),
       quantity: yup.number().min(1, productErrors.quantityLessThanOne),
       type: yup.string(),
@@ -268,7 +267,7 @@ export default class ProductsController {
 
     await productRepository.save(product);
 
-    return response.status(200).json({ message: 'User updated with success' });
+    return response.status(200).json({ message: 'Product updated with success' });
   }
 
   async delete(request: Request, response: Response) : Promise<Response<any>> {
@@ -294,12 +293,12 @@ export default class ProductsController {
   }
 
   async updateInventoryControl(request: Request, response: Response): Promise<Response<any>> {
-    const { user_id, quantity, transaction_type } = request.body;
+    const { quantity, transaction_type } = request.body;
     const { product_id } = request.params;
 
+    const user_id = request.user.id;
+
     const schema = yup.object().shape({
-      user_id: yup.string().uuid(productErrors.userMustBeUuid)
-        .required(productErrors.userIdRequired),
       transaction_type: yup.string().required(productErrors.transactionTypeRequired),
       quantity: yup.number().min(1, productErrors.quantityLessThanOne)
         .required(productErrors.quantityRequired),

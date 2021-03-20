@@ -27,7 +27,7 @@
 [] - Refatorar o código para utilizar inversão de dependências na chamada dos services
 [] - Aplicação do princípio de Liskov Substitution para poder treinar.
 [] - Organizar a estrutura do back em modules
-  [] - categories
+  [x] - categories
     [x] - Organizar os models
     [x] - Organizar os repositories
       [x] - Implementations

@@ -5,6 +5,7 @@ import 'reflect-metadata';
 import './database';
 import routes from './routes';
 import { AppError } from './errors/AppError';
+import { ErrorsEnum } from './utils/Enums';
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use((error: Error, request: Request, response: Response, _next: NextFunction
     });
   }
 
-  return response.status(500).json({
+  return response.status(ErrorsEnum.InternalServerError).json({
     message: `Internal server error ${error}`,
   });
 });

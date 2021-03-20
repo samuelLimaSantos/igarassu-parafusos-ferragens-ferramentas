@@ -1,1 +1,1 @@
-export const takePages = 10;
+export const takePages = 6;

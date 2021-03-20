@@ -24,4 +24,19 @@
   [x] - Transações
 [x] - Refatorar a parte de paginação
 [x] - Refatorar para todos os métodos de do controller de products utilizar o custom repository
+[] - Refatorar o código para utilizar inversão de dependências na chamada dos services
+[] - Aplicação do princípio de Liskov Substitution para poder treinar.
+[] - Organizar a estrutura do back em modules
+  [x] - Organizar os models
+  [] - Organizar os repositories
+    [] - Implementations
+    [] - interfaces
+  [] - Organizar os useCases
+    [] - controller
+    [] - useCase
+    [] - index
+
+[] - Recriar o método de import de múltiplos produtos
+[] - Adicionar o swagger de documentação
 [] - Criar testes de integração para as principais rotas da aplicação.
+

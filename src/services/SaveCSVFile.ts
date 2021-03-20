@@ -73,10 +73,6 @@
 //       });
 //     });
 
-//     await new Promise((resolve) => {
-//       parseCSV.on('end', resolve);
-//     });
-
 //     const productsRepository = getRepository(ProductModel);
 
 //     products.forEach(async (product) => {
@@ -112,6 +108,10 @@
 //       });
 
 //       await productsRepository.save(newProduct);
+//     });
+
+//     await new Promise((resolve) => {
+//       parseCSV.on('end', resolve);
 //     });
 //   }
 // }

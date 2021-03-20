@@ -95,7 +95,7 @@ export default class ProductsController {
       transaction_type: 'income',
     });
 
-    return response.status(201).json(product);
+    return response.status(201).send();
   }
 
   async index(request: Request, response: Response) : Promise<Response<any>> {

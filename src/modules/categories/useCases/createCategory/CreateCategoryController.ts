@@ -7,8 +7,6 @@ class CreateCategoryController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { title } = request.body;
 
-    await this.createCategoryUseCase.ensureFormatRequest(title);
-
     await this.createCategoryUseCase.execute(title);
 
     return response.status(201).send();

@@ -26,6 +26,8 @@ app.use((error: Error, request: Request, response: Response, _next: NextFunction
   });
 });
 
-app.listen(3333, () => {
-  console.log('Server is running at port 3333 🚀');
+const port = process.env.PORT || 3333;
+
+app.listen(port, () => {
+  console.log(`Server is running at port ${port} 🚀`);
 });

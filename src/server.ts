@@ -1,8 +1,8 @@
+import './database';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import 'reflect-metadata';
-import './database';
 import routes from './routes';
 import { AppError } from './errors/AppError';
 import { ErrorsEnum } from './utils/Enums';

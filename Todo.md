@@ -27,16 +27,51 @@
 [] - Refatorar o código para utilizar inversão de dependências na chamada dos services
 [] - Aplicação do princípio de Liskov Substitution para poder treinar.
 [] - Organizar a estrutura do back em modules
-  [x] - Organizar os models
-  [] - Organizar os repositories
-    [] - Implementations
-    [] - interfaces
-  [] - Organizar os useCases
-    [] - controller
-    [] - useCase
-    [] - index
+  [] - categories
+    [x] - Organizar os models
+    [x] - Organizar os repositories
+      [x] - Implementations
+      [x] - interfaces
+    [x] - Organizar os useCases
+      [x] - controller
+      [x] - useCase
+      [x] - index
+    [x] - Organizar rotas
+  [] - products
+    [x] - Organizar os models
+    [] - Organizar os repositories
+      [] - Implementations
+      [] - interfaces
+    [] - Organizar os useCases
+      [] - controller
+      [] - useCase
+      [] - index
+    [] - Organizar rotas
+  [] - users
+    [x] - Organizar os models
+    [] - Organizar os repositories
+      [] - Implementations
+      [] - interfaces
+    [] - Organizar os useCases
+      [] - controller
+      [] - useCase
+      [] - index
+    [] - Organizar rotas
+  [] - transactions
+    [x] - Organizar os models
+    [] - Organizar os repositories
+      [] - Implementations
+      [] - interfaces
+    [] - Organizar os useCases
+      [] - controller
+      [] - useCase
+      [] - index
+    [] - Organizar rotas
 
 [] - Recriar o método de import de múltiplos produtos
 [] - Adicionar o swagger de documentação
 [] - Criar testes de integração para as principais rotas da aplicação.
 
+
+
+    "./src/database/migrations/*.ts"

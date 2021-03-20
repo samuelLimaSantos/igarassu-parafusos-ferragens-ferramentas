@@ -19,6 +19,7 @@
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "consistent-return": "off",
+    "no-useless-constructor": "off",
     "no-useless-return": "off",
     "camelcase": "off",
      "import/extensions": [

@@ -8,6 +8,7 @@ interface ICreateUserDTO {
 interface IUserRepository {
   getLoginByLoginName(login: string): Promise<User | undefined>;
   createUser({ login, password }: ICreateUserDTO): Promise<void>;
+  getIdAndPasswordByLogin(login: string): Promise<User | undefined>;
 }
 
 export { IUserRepository, ICreateUserDTO };

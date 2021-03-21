@@ -22,7 +22,7 @@ export default class CreateCodeSerial {
       return `${categoryId}-1`;
     }
 
-    const [, lastNumber] = lastItemRegistered?.cod.split('-');
+    const [, lastNumber] = lastItemRegistered.cod.split('-');
 
     return `${categoryId}-${Number(lastNumber) + 1}`;
   }

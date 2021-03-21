@@ -11,7 +11,7 @@ import { Product } from '../../products/model/Product';
 @Entity('categories')
 class Category {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column()
   title: string;

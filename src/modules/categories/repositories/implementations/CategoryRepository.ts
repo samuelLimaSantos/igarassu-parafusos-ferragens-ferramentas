@@ -10,12 +10,14 @@ class CategoryRepository extends Repository<Category> implements ICategoryReposi
     return category;
   }
 
-  async createCategory(title: string): Promise<void> {
+  async createCategory(title: string): Promise<number> {
     const category = this.create({
       title,
     });
 
     await this.save(category);
+
+    return category.id;
   }
 
   async listCategories(): Promise<Category[] | undefined> {

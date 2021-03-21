@@ -47,7 +47,7 @@
       [] - useCase
       [] - index
     [] - Organizar rotas
-  [] - users
+  [x] - users
     [x] - Organizar os models
     [x] - Organizar os repositories
       [x] - Implementations
@@ -57,16 +57,16 @@
       [x] - useCase
       [x] - index
     [x] - Organizar rotas
-  [] - transactions
+  [x] - transactions
     [x] - Organizar os models
-    [] - Organizar os repositories
-      [] - Implementations
-      [] - interfaces
-    [] - Organizar os useCases
-      [] - controller
-      [] - useCase
-      [] - index
-    [] - Organizar rotas
+    [x] - Organizar os repositories
+      [x] - Implementations
+      [x] - interfaces
+    [x] - Organizar os useCases
+      [x] - controller
+      [x] - useCase
+      [x] - index
+    [x] - Organizar rotas
 
 [] - Recriar o método de import de múltiplos produtos
 [] - Adicionar o swagger de documentação

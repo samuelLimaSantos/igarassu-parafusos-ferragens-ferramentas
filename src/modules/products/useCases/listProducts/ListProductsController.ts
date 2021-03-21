@@ -5,9 +5,9 @@ class ListProductsController {
   constructor(private listProductsUseCase: ListProductsUseCase) {}
 
   async handle(request: Request, response: Response): Promise<Response> {
-    const { page } = request.query;
+    const { page, ...where } = request.query;
 
-    const products = await this.listProductsUseCase.execute(Number(page));
+    const products = await this.listProductsUseCase.execute(Number(page), where);
 
     return response.json(products);
   }

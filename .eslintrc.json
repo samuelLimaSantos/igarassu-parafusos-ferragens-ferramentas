@@ -22,6 +22,9 @@
     "no-useless-constructor": "off",
     "no-useless-return": "off",
     "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-param-reassign": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "camelcase": "off",
      "import/extensions": [
       "error",

@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import TransactionsController from '../controllers/TransactionsController';
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureFormatParams from '../modules/transactions/middlewares/EnsureFormatParams';
+import { listTransactionsController } from '../modules/transactions/useCases/listTransactions';
 
 const routes = Router();
-const transactionsController = new TransactionsController();
 
 routes.use(ensureAuthenticated);
 
-routes.get('/:product_id', transactionsController.index);
+routes.get('/:product_id', ensureFormatParams.listTransaction, async (request, response) => {
+  await listTransactionsController().handle(request, response);
+});
 
 export default routes;

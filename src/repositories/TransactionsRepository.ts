@@ -1,6 +1,6 @@
 import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
 import TransactionModel from '../models/Transactions';
-import { takePages } from '../utils/Contants';
+import { takePages } from '../utils/Constants';
 import { ProductsRepository } from './ProductsRepository';
 
 interface FindAndPaginateByIdProps {

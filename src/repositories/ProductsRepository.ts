@@ -4,7 +4,7 @@ import {
   EntityRepository,
 } from 'typeorm';
 import Products from '../models/Products';
-import { takePages } from '../utils/Contants';
+import { takePages } from '../utils/Constants';
 
 interface PaginateProps {
   page: number;

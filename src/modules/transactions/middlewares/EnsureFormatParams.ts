@@ -1,19 +1,17 @@
 import * as yup from 'yup';
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../../../errors/AppError';
-import { categoriesErrors } from '../errors';
+import { productErrors } from '../../products/errors';
 
 class EnsureFormatParams {
-  async createCategory(request: Request, _response: Response,
+  async listTransaction(request: Request, _response: Response,
     next: NextFunction): Promise<void> {
-    const { title } = request.body;
-
     const schema = yup.object().shape({
-      title: yup.string().required(categoriesErrors.titleRequired),
+      page: yup.string().required(productErrors.pageRequired),
     });
 
     try {
-      await schema.validate({ title }, { abortEarly: true });
+      await schema.validate(request.query);
     } catch (error) {
       throw new AppError(error.errors);
     }

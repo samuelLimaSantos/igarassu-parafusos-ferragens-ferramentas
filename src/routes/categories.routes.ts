@@ -8,7 +8,7 @@ const routes = Router();
 
 routes.use(ensureAuthenticated);
 
-routes.post('/', ensureFormatParams.check, async (request, response) => {
+routes.post('/', ensureFormatParams.createCategory, async (request, response) => {
   await createCategoryController().handle(request, response);
 });
 

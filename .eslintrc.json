@@ -21,6 +21,7 @@
     "consistent-return": "off",
     "no-useless-constructor": "off",
     "no-useless-return": "off",
+    "@typescript-eslint/ban-types": "off",
     "camelcase": "off",
      "import/extensions": [
       "error",

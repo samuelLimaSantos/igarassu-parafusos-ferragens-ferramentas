@@ -41,7 +41,9 @@ class CreateProductUseCase {
     const categoryAlreadyExists = await this.categoryRepository.findByTitle(category);
 
     if (!categoryAlreadyExists) {
-      this.category_id = await this.categoryRepository.createCategory(category);
+      const categoryModel = this.categoryRepository.createCategory(category);
+      await this.categoryRepository.saveCategory(categoryModel);
+      this.category_id = categoryModel.id;
     }
 
     this.category_id = categoryAlreadyExists ? categoryAlreadyExists.id : this.category_id;
@@ -55,7 +57,7 @@ class CreateProductUseCase {
 
     const cod = await this.createCodeSerial(this.category_id);
 
-    const productId = await this.productRepository.createProductAndReturnId({
+    const product = {
       category_id: this.category_id,
       cod,
       description,
@@ -66,14 +68,20 @@ class CreateProductUseCase {
       quantity,
       type,
       unity,
-    });
+    };
 
-    await this.transactionRepository.createTransaction({
-      product_id: productId,
+    const productModel = this.productRepository.createProduct(product);
+
+    await this.productRepository.saveProduct(productModel);
+
+    const transaction = this.transactionRepository.createTransaction({
+      product_id: productModel.id,
       quantity,
       transaction_type: 'income',
       user_id,
     });
+
+    await this.transactionRepository.saveTransaction(transaction);
   }
 
   private async createCodeSerial(category_id: number): Promise<string> {

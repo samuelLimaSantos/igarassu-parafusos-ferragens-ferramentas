@@ -37,7 +37,7 @@ interface IProductRepository {
   saveProduct(product: Product): Promise<void>
   getProductByCategoryAndName(name: string, category_id: number): Promise<Product | undefined>
   getLastProductByCategory(category_id: number): Promise<Product | undefined>
-  createProductAndReturnId({
+  createProduct({
     cod,
     name,
     category_id,
@@ -48,7 +48,9 @@ interface IProductRepository {
     quantity,
     type,
     unity,
-  }: ICreateProductDTO): Promise<string>
+  }: ICreateProductDTO): Product
+
+  saveMultipleProducts(products: Product[]): Promise<void>
 }
 
 export {

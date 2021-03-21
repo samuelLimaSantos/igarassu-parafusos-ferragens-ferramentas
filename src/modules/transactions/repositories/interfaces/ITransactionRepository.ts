@@ -32,7 +32,11 @@ interface ITransactionRepository {
     : Promise<IFindTransactionByIdPaginatedResponse>;
   createTransaction({
     product_id, quantity, transaction_type, user_id,
-  }: ICreateTransactionDTO): Promise<void>
+  }: ICreateTransactionDTO): Transaction
+
+  saveTransaction(transaction: Transaction): Promise<void>;
+  saveMultipleTransactions(transactions: Transaction[]): Promise<void>
+
 }
 
 export {

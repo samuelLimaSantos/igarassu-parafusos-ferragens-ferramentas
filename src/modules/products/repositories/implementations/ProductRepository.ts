@@ -5,7 +5,11 @@ import { ICreateProductDTO, IFindProductsPaginateAndCountResponse, IProductRepos
 
 @EntityRepository(Product)
 class ProductRepository extends Repository<Product> implements IProductRepository {
-  async createProductAndReturnId({
+  async saveMultipleProducts(products: Product[]): Promise<void> {
+    await this.save(products);
+  }
+
+  createProduct({
     cod,
     name,
     quantity,
@@ -16,7 +20,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
     price_buy,
     price_sell,
     image_id,
-  }: ICreateProductDTO): Promise<string> {
+  }: ICreateProductDTO): Product {
     const product = this.create({
       cod,
       name,
@@ -30,9 +34,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
       price_buy,
     });
 
-    await this.save(product);
-
-    return product.id;
+    return product;
   }
 
   async saveProduct(product: Product): Promise<void> {

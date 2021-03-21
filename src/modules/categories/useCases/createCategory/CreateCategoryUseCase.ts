@@ -10,7 +10,9 @@ class CreateCategoryUseCase {
 
     if (category) throw new AppError(categoriesErrors.categoryAlreadyExists);
 
-    await this.categoryRepository.createCategory(title);
+    const categoryModel = this.categoryRepository.createCategory(title);
+
+    await this.categoryRepository.saveCategory(categoryModel);
   }
 }
 

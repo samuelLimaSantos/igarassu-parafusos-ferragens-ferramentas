@@ -9,15 +9,22 @@ import { deleteProductController } from '../modules/products/useCases/deleteProd
 import { updateInventoryController } from '../modules/products/useCases/updateInvetory';
 import { updateProductController } from '../modules/products/useCases/updateProduct';
 import { createProductController } from '../modules/products/useCases/createProduct';
+import { importProductsController } from '../modules/products/useCases/importProducts';
 
 const routes = Router();
 
-const upload = multer(uploadConfig);
+const upload = multer({
+  dest: './tmp',
+});
 
 routes.use(ensureAuthenticated);
 
 routes.post('/', ensureFormatParams.createProduct, async (request, response) => {
   await createProductController().handle(request, response);
+});
+
+routes.post('/import', upload.single('products'), async (request, response) => {
+  await importProductsController().handle(request, response);
 });
 
 routes.get('/', ensureFormatParams.listProducts, async (request, response) => {

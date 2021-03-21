@@ -43,12 +43,14 @@ class UpdateInventoryUseCase {
 
     await this.productRepository.saveProduct(product);
 
-    await this.transactionRepository.createTransaction({
+    const transaction = this.transactionRepository.createTransaction({
       product_id,
       quantity,
       transaction_type,
       user_id,
     });
+
+    await this.transactionRepository.saveTransaction(transaction);
   }
 }
 

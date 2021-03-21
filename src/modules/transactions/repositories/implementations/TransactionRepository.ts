@@ -10,6 +10,14 @@ import {
 
 @EntityRepository(Transaction)
 class TransactionRepository extends Repository<Transaction> implements ITransactionRepository {
+  async saveMultipleTransactions(transactions: Transaction[]): Promise<void> {
+    await this.save(transactions);
+  }
+
+  async saveTransaction(transaction: Transaction): Promise<void> {
+    await this.save(transaction);
+  }
+
   async findTransactionByIdPaginated({
     page,
     product_id,
@@ -36,12 +44,12 @@ class TransactionRepository extends Repository<Transaction> implements ITransact
     return { transactions, count };
   }
 
-  async createTransaction({
+  createTransaction({
     product_id,
     quantity,
     transaction_type,
     user_id,
-  }: ICreateTransactionDTO): Promise<void> {
+  }: ICreateTransactionDTO): Transaction {
     const transaction = this.create({
       user_id,
       product_id,
@@ -49,7 +57,7 @@ class TransactionRepository extends Repository<Transaction> implements ITransact
       transaction_type,
     });
 
-    await this.save(transaction);
+    return transaction;
   }
 }
 

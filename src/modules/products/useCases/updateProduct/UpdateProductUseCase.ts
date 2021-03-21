@@ -44,12 +44,14 @@ class UpdateProductUseCase {
     );
 
     if (quantity && quantity !== product.quantity) {
-      await this.transactionRepository.createTransaction({
+      const transaction = this.transactionRepository.createTransaction({
         product_id: product.id,
         user_id,
         quantity: Math.abs(quantity - product.quantity),
         transaction_type,
       });
+
+      await this.transactionRepository.saveTransaction(transaction);
     }
 
     product.name = name || product.name;

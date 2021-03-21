@@ -37,16 +37,16 @@
       [x] - useCase
       [x] - index
     [x] - Organizar rotas
-  [] - products
+  [x] - products
     [x] - Organizar os models
-    [] - Organizar os repositories
-      [] - Implementations
-      [] - interfaces
-    [] - Organizar os useCases
-      [] - controller
-      [] - useCase
-      [] - index
-    [] - Organizar rotas
+    [x] - Organizar os repositories
+      [x] - Implementations
+      [x] - interfaces
+    [x] - Organizar os useCases
+      [x] - controller
+      [x] - useCase
+      [x] - index
+    [x] - Organizar rotas
   [x] - users
     [x] - Organizar os models
     [x] - Organizar os repositories

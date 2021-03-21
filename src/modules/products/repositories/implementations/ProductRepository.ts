@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { takePages } from '../../../../utils/Constants';
+import { takePages } from '../../../../shared/utils/Constants';
 import { Product } from '../../model/Product';
 import { ICreateProductDTO, IFindProductsPaginateAndCountResponse, IProductRepository } from '../interfaces/IProductRepository';
 

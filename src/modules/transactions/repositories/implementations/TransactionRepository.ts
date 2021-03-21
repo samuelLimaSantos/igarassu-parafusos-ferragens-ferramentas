@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { takePages } from '../../../../utils/Constants';
+import { takePages } from '../../../../shared/utils/Constants';
 import { Transaction } from '../../model/Transaction';
 import {
   ICreateTransactionDTO,

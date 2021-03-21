@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import authConfig from '../../../../config/authConfig';
-import { AppError } from '../../../../errors/AppError';
+import { AppError } from '../../../../shared/errors/AppError';
 import { sessionErrors } from '../../errors';
 import { IUserRepository } from '../../repositories/interfaces/IUserRepository';
 

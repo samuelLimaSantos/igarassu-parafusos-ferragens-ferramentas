@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import multer from 'multer';
-import ImportController from '../controllers/ImportController';
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticated from '../shared/middlewares/ensureAuthenticated';
 import uploadConfig from '../config/upload';
 import ensureFormatParams from '../modules/products/middlewares/EnsureFormatParams';
 import { listProductsController } from '../modules/products/useCases/listProducts';
@@ -40,7 +39,5 @@ routes.put('/inventory/:product_id', ensureFormatParams.updateInventory, async (
 routes.delete('/:id', ensureFormatParams.deleteProduct, async (request, response) => {
   await deleteProductController().handle(request, response);
 });
-
-// routes.post('/import', upload.single('file'), importController.create);
 
 export default routes;

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { Request, Response, NextFunction } from 'express';
-import { AppError } from '../../../errors/AppError';
+import { AppError } from '../../../shared/errors/AppError';
 import { productErrors } from '../../products/errors';
 
 class EnsureFormatParams {

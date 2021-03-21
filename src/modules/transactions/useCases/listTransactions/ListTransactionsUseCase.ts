@@ -1,4 +1,4 @@
-import { takePages } from '../../../../utils/Constants';
+import { takePages } from '../../../../shared/utils/Constants';
 import { IProductRepository } from '../../../products/repositories/interfaces/IProductRepository';
 import { IListTransactionsDTO, IListTransactionsResponse, ITransactionRepository } from '../../repositories/interfaces/ITransactionRepository';
 

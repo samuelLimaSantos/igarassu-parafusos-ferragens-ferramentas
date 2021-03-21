@@ -4,8 +4,8 @@ import 'express-async-errors';
 import cors from 'cors';
 import 'reflect-metadata';
 import routes from './routes';
-import { AppError } from './errors/AppError';
-import { ErrorsEnum } from './utils/Enums';
+import { AppError } from './shared/errors/AppError';
+import { ErrorsEnum } from './shared/utils/Enums';
 
 const app = express();
 

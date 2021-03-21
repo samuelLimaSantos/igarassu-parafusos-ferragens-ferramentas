@@ -1,4 +1,4 @@
-import { AppError } from '../../../../errors/AppError';
+import { AppError } from '../../../../shared/errors/AppError';
 import { ITransactionRepository } from '../../../transactions/repositories/interfaces/ITransactionRepository';
 import { productErrors } from '../../errors';
 import { IProductRepository } from '../../repositories/interfaces/IProductRepository';

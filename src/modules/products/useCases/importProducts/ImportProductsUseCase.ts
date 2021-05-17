@@ -3,7 +3,6 @@
 /* eslint-disable no-restricted-syntax */
 import fs from 'fs';
 import { parse } from 'node-xlsx';
-import { object } from 'yup/lib/locale';
 import { Category } from '../../../categories/model/Category';
 import { ICategoryRepository } from '../../../categories/repositories/interfaces/ICategoryRepository';
 import { Transaction } from '../../../transactions/model/Transaction';
@@ -84,7 +83,7 @@ class ImportProductsUseCase {
 
         if (productAlreadyExistsInCategory) {
           this.hasError = true;
-          return;
+          continue;
         }
 
         const cod = await this.createCodeSerial(this.category_id);

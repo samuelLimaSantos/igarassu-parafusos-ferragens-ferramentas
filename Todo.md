@@ -71,9 +71,3 @@
 [x] - Recriar o método de import de múltiplos produtos
 [] - Adicionar o swagger de documentação
 [] - Criar testes de integração para as principais rotas da aplicação.
-
-[] - Mudar o endpoint no front
-
-
-
-    "./src/database/migrations/*.ts"

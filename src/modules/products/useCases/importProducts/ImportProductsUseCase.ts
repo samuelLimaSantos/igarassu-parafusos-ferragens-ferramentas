@@ -107,6 +107,7 @@ class ImportProductsUseCase {
         };
 
         const productModel = this.productRepository.createProduct(product);
+        await this.productRepository.saveProduct(productModel);
 
         this.products.push(productModel);
 
@@ -126,7 +127,7 @@ class ImportProductsUseCase {
 
     // await this.categoryRepository.saveMultiplesCategories(this.categories);
 
-    await this.productRepository.saveMultipleProducts(this.products);
+    // await this.productRepository.saveMultipleProducts(this.products);
     await this.transactionRepository.saveMultipleTransactions(this.transactions);
     await fs.promises.unlink(file.path);
   }

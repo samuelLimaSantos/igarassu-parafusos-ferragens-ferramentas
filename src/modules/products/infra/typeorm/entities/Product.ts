@@ -9,8 +9,8 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Category } from '../../categories/infra/typeorm/entities/Category';
-import { Transaction } from '../../transactions/model/Transaction';
+import { Category } from '../../../../categories/infra/typeorm/entities/Category';
+import { Transaction } from '../../../../transactions/infra/typeorm/entities/Transaction';
 
 @Entity('products')
 class Product {

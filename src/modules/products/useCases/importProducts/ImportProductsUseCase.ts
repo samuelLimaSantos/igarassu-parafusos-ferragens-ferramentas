@@ -5,9 +5,9 @@ import fs from 'fs';
 import { parse } from 'node-xlsx';
 import { Category } from '../../../categories/infra/typeorm/entities/Category';
 import { ICategoryRepository } from '../../../categories/repositories/interfaces/ICategoryRepository';
-import { Transaction } from '../../../transactions/model/Transaction';
+import { Transaction } from '../../../transactions/infra/typeorm/entities/Transaction';
 import { ITransactionRepository } from '../../../transactions/repositories/interfaces/ITransactionRepository';
-import { Product } from '../../model/Product';
+import { Product } from '../../infra/typeorm/entities/Product';
 import { IProductRepository } from '../../repositories/interfaces/IProductRepository';
 
 class ImportProductsUseCase {

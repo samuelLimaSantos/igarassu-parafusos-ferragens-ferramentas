@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
-import { TransactionRepository } from '../../../transactions/repositories/implementations/TransactionRepository';
-import { ProductRepository } from '../../repositories/implementations/ProductRepository';
+import { TransactionRepository } from '../../../transactions/infra/typeorm/repositories/TransactionRepository';
+import { ProductRepository } from '../../infra/typeorm/repositories/ProductRepository';
 import { UpdateInventoryController } from './UpdateInventoryController';
 import { UpdateInventoryUseCase } from './UpdateInventoryUseCase';
 

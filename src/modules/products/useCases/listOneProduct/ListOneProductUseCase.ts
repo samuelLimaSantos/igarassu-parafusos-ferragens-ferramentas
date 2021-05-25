@@ -1,6 +1,6 @@
 import { AppError } from '../../../../shared/errors/AppError';
 import { productErrors } from '../../errors';
-import { Product } from '../../model/Product';
+import { Product } from '../../infra/typeorm/entities/Product';
 import { IProductRepository } from '../../repositories/interfaces/IProductRepository';
 
 class ListOneProductUseCase {

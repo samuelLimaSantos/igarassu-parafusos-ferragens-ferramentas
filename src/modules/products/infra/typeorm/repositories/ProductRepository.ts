@@ -1,12 +1,17 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { takePages } from '../../../../shared/utils/Constants';
-import { Product } from '../../model/Product';
-import { ICreateProductDTO, IFindProductsPaginateAndCountResponse, IProductRepository } from '../interfaces/IProductRepository';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { takePages } from '../../../../../shared/utils/Constants';
+import { Product } from '../entities/Product';
+import { ICreateProductDTO, IFindProductsPaginateAndCountResponse, IProductRepository } from '../../../repositories/interfaces/IProductRepository';
 
-@EntityRepository(Product)
-class ProductRepository extends Repository<Product> implements IProductRepository {
+class ProductRepository implements IProductRepository {
+  private repository: Repository<Product>;
+
+  constructor() {
+    this.repository = getRepository(Product);
+  }
+
   async saveMultipleProducts(products: Product[]): Promise<void> {
-    await this.save(products);
+    await this.repository.save(products);
   }
 
   createProduct({
@@ -21,7 +26,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
     price_sell,
     image_id,
   }: ICreateProductDTO): Product {
-    const product = this.create({
+    const product = this.repository.create({
       cod,
       name,
       quantity,
@@ -38,14 +43,14 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
   }
 
   async saveProduct(product: Product): Promise<void> {
-    await this.save(product);
+    await this.repository.save(product);
   }
 
   async getProductByCategoryAndName(
     name: string,
     category_id: number,
   ): Promise<Product | undefined> {
-    const product = await this.findOne({
+    const product = await this.repository.findOne({
       where: {
         name,
         category_id,
@@ -56,7 +61,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
   }
 
   async getLastProductByCategory(category_id: number): Promise<Product | undefined> {
-    const lastItemRegistered = await this.findOne({
+    const lastItemRegistered = await this.repository.findOne({
       where: {
         category_id,
       },
@@ -69,7 +74,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
   }
 
   async getProductById(id: string): Promise<Product | undefined> {
-    const product = await this.findOne({
+    const product = await this.repository.findOne({
       where: {
         id,
       },
@@ -79,7 +84,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
   }
 
   async getProductInventoryById(product_id: string): Promise<number | undefined> {
-    const productInventory = await this.findOne({
+    const productInventory = await this.repository.findOne({
       select: ['id', 'quantity'],
       where: {
         id: product_id,
@@ -91,7 +96,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
 
   async findProductsPaginatedAndCount(page: number, where: object):
     Promise<IFindProductsPaginateAndCountResponse> {
-    const [products, count] = await this.findAndCount({
+    const [products, count] = await this.repository.findAndCount({
       skip: page === 1 ? 0 : (page - 1) * takePages,
       take: takePages,
       order: { created_at: 'DESC' },
@@ -104,7 +109,7 @@ class ProductRepository extends Repository<Product> implements IProductRepositor
   }
 
   async deleteProductById(id: string): Promise<void> {
-    await this.delete(id);
+    await this.repository.delete(id);
   }
 }
 

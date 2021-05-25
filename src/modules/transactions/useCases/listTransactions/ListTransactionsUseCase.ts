@@ -1,10 +1,14 @@
+import { inject, injectable } from 'tsyringe';
 import { takePages } from '../../../../shared/utils/Constants';
 import { IProductRepository } from '../../../products/repositories/interfaces/IProductRepository';
 import { IListTransactionsDTO, IListTransactionsResponse, ITransactionRepository } from '../../repositories/interfaces/ITransactionRepository';
 
+@injectable()
 class ListTransactionsUseCase {
   constructor(
+    @inject('TransactionRepository')
     private transactionRepository: ITransactionRepository,
+    @inject('ProductRepository')
     private productRepository: IProductRepository,
   ) {}
 

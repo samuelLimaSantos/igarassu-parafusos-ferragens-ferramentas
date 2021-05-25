@@ -1,4 +1,4 @@
-import { Transaction } from '../../model/Transaction';
+import { Transaction } from '../../infra/typeorm/entities/Transaction';
 
 interface IListTransactionsDTO{
   page: number;

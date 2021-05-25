@@ -8,8 +8,8 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Product } from '../../products/model/Product';
-import { User } from '../../users/infra/typeorm/entities/User';
+import { Product } from '../../../../products/infra/typeorm/entities/Product';
+import { User } from '../../../../users/infra/typeorm/entities/User';
 
 @Entity('transactions')
 class Transaction {

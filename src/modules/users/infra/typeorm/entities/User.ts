@@ -2,7 +2,7 @@ import {
   Entity, Column, CreateDateColumn, UpdateDateColumn, OneToMany, PrimaryColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Transaction } from '../../../../transactions/model/Transaction';
+import { Transaction } from '../../../../transactions/infra/typeorm/entities/Transaction';
 
 @Entity('users')
 class User {

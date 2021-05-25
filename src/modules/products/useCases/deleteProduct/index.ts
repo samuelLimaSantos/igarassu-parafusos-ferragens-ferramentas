@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import { ProductRepository } from '../../repositories/implementations/ProductRepository';
+import { ProductRepository } from '../../infra/typeorm/repositories/ProductRepository';
 import { DeleteProductController } from './DeleteProductController';
 import { DeleteProductUseCase } from './DeleteProductUseCase';
 

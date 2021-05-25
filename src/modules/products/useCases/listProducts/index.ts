@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import { CategoryRepository } from '../../../categories/infra/typeorm/repositories/CategoryRepository';
-import { ProductRepository } from '../../repositories/implementations/ProductRepository';
+import { ProductRepository } from '../../infra/typeorm/repositories/ProductRepository';
 import { ListProductsController } from './ListProductsController';
 import { ListProductsUseCase } from './ListProductsUseCase';
 

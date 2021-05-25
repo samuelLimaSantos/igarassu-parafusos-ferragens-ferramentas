@@ -1,28 +1,33 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { takePages } from '../../../../shared/utils/Constants';
-import { Transaction } from '../../model/Transaction';
+import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { takePages } from '../../../../../shared/utils/Constants';
+import { Transaction } from '../entities/Transaction';
 import {
   ICreateTransactionDTO,
   IListTransactionsDTO,
   ITransactionRepository,
   IFindTransactionByIdPaginatedResponse,
-} from '../interfaces/ITransactionRepository';
+} from '../../../repositories/interfaces/ITransactionRepository';
 
-@EntityRepository(Transaction)
-class TransactionRepository extends Repository<Transaction> implements ITransactionRepository {
+class TransactionRepository implements ITransactionRepository {
+  private repository: Repository<Transaction>;
+
+  constructor() {
+    this.repository = getRepository(Transaction);
+  }
+
   async saveMultipleTransactions(transactions: Transaction[]): Promise<void> {
-    await this.save(transactions);
+    await this.repository.save(transactions);
   }
 
   async saveTransaction(transaction: Transaction): Promise<void> {
-    await this.save(transaction);
+    await this.repository.save(transaction);
   }
 
   async findTransactionByIdPaginated({
     page,
     product_id,
   }: IListTransactionsDTO): Promise<IFindTransactionByIdPaginatedResponse> {
-    const [transactions, count] = await this.createQueryBuilder('transactions')
+    const [transactions, count] = await this.repository.createQueryBuilder('transactions')
       .where({ product_id })
       .select([
         'transactions.id',
@@ -50,7 +55,7 @@ class TransactionRepository extends Repository<Transaction> implements ITransact
     transaction_type,
     user_id,
   }: ICreateTransactionDTO): Transaction {
-    const transaction = this.create({
+    const transaction = this.repository.create({
       user_id,
       product_id,
       quantity,

@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import { ListTransactionsUseCase } from './ListTransactionsUseCase';
 
 class ListTransactionsController {
-  constructor(private listTransactionsUseCase: ListTransactionsUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const { product_id } = request.params;
     const { page } = request.query;
 
-    const transactions = await this.listTransactionsUseCase.execute({
+    const listTransactionsUseCase = container.resolve(ListTransactionsUseCase);
+
+    const transactions = await listTransactionsUseCase.execute({
       page: Number(page),
       product_id,
     });

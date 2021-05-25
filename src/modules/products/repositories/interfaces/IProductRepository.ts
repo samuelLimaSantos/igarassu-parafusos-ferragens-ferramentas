@@ -1,4 +1,4 @@
-import { Product } from '../../model/Product';
+import { Product } from '../../infra/typeorm/entities/Product';
 
 interface IFindProductsPaginateAndCountResponse {
   products: Product[];

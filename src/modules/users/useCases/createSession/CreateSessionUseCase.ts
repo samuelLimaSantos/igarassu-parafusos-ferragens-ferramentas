@@ -1,5 +1,6 @@
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import { inject, injectable } from 'tsyringe';
 import authConfig from '../../../../config/authConfig';
 import { AppError } from '../../../../shared/errors/AppError';
 import { sessionErrors } from '../../errors';
@@ -10,8 +11,12 @@ interface ICreateSessionDto {
   password: string;
 }
 
+@injectable()
 class CreateSessionUseCase {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
+  ) {}
 
   async execute({ login, password }: ICreateSessionDto): Promise<{id: string, token: string}> {
     const user = await this.userRepository.getIdAndPasswordByLogin(login);

@@ -8,8 +8,6 @@ class CreateCategoryController {
 
     const createCategoryUseCase = container.resolve(CreateCategoryUseCase);
 
-    console.log(createCategoryUseCase);
-
     await createCategoryUseCase.execute(title);
 
     return response.status(201).send();

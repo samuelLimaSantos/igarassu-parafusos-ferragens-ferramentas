@@ -1,8 +1,9 @@
-import '../../../database';
+import 'reflect-metadata';
+import '../../container';
 import express, { Request, Response, NextFunction } from 'express';
+import '../../../database';
 import 'express-async-errors';
 import cors from 'cors';
-import 'reflect-metadata';
 import routes from './routes';
 import { AppError } from '../../errors/AppError';
 import { ErrorsEnum } from '../../utils/Enums';

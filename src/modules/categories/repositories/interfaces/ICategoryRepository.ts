@@ -1,4 +1,4 @@
-import { Category } from '../../model/Category';
+import { Category } from '../../infra/typeorm/entities/Category';
 
 interface ICategoryRepository {
   findByTitle(title: string): Promise<Category | undefined> ;

@@ -6,7 +6,8 @@
   "password": "docker",
   "database": "igarassu_parafusos",
   "entities": [
-    "./src/modules/**/model/*.ts"
+    "./src/modules/**/model/*.ts",
+    "./src/modules/**/infra/typeorm/entities/*.ts"
   ],
   "migrations": [
     "./src/database/migrations/*.ts"

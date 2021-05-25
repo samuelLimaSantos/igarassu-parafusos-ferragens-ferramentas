@@ -3,7 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 import fs from 'fs';
 import { parse } from 'node-xlsx';
-import { Category } from '../../../categories/model/Category';
+import { Category } from '../../../categories/infra/typeorm/entities/Category';
 import { ICategoryRepository } from '../../../categories/repositories/interfaces/ICategoryRepository';
 import { Transaction } from '../../../transactions/model/Transaction';
 import { ITransactionRepository } from '../../../transactions/repositories/interfaces/ITransactionRepository';

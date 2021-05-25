@@ -9,7 +9,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-import { Category } from '../../categories/model/Category';
+import { Category } from '../../categories/infra/typeorm/entities/Category';
 import { Transaction } from '../../transactions/model/Transaction';
 
 @Entity('products')

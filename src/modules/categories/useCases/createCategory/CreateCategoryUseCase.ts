@@ -1,9 +1,14 @@
+import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/errors/AppError';
 import { categoriesErrors } from '../../errors';
 import { ICategoryRepository } from '../../repositories/interfaces/ICategoryRepository';
 
+@injectable()
 class CreateCategoryUseCase {
-  constructor(private categoryRepository: ICategoryRepository) {}
+  constructor(
+    @inject('CategoryRepository')
+    private categoryRepository: ICategoryRepository,
+  ) {}
 
   async execute(title: string): Promise<void> {
     const category = await this.categoryRepository.findByTitle(title);

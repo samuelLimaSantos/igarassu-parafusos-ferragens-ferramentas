@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import { UpdateProductUseCase } from './UpdateProductUseCase';
 
 class UpdateProductController {
-  constructor(private updateProductUseCase: UpdateProductUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const {
       name,
@@ -20,7 +19,9 @@ class UpdateProductController {
 
     const user_id = request.user.id;
 
-    await this.updateProductUseCase.execute({
+    const updateProductUseCase = container.resolve(UpdateProductUseCase);
+
+    await updateProductUseCase.execute({
       name,
       quantity,
       type,

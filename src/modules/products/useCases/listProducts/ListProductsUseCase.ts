@@ -1,10 +1,14 @@
+import { inject, injectable } from 'tsyringe';
 import { takePages } from '../../../../shared/utils/Constants';
 import { ICategoryRepository } from '../../../categories/repositories/interfaces/ICategoryRepository';
 import { IListProductsResponse, IProductRepository } from '../../repositories/interfaces/IProductRepository';
 
+@injectable()
 class ListProductsUseCase {
   constructor(
+    @inject('ProductRepository')
     private productRepository:IProductRepository,
+    @inject('CategoryRepository')
     private categoryRepository: ICategoryRepository,
   ) {}
 

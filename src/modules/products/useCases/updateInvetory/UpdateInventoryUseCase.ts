@@ -1,3 +1,4 @@
+import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/errors/AppError';
 import { ITransactionRepository } from '../../../transactions/repositories/interfaces/ITransactionRepository';
 import { productErrors } from '../../errors';
@@ -10,9 +11,12 @@ interface IRequest {
   transaction_type: 'income' | 'outcome'
 }
 
+@injectable()
 class UpdateInventoryUseCase {
   constructor(
+    @inject('ProductRepository')
     private productRepository: IProductRepository,
+    @inject('TransactionRepository')
     private transactionRepository: ITransactionRepository,
   ) {}
 

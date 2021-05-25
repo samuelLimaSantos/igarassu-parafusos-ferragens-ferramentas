@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import { CreateProductUseCase } from './CreateProductUseCase';
 
 class CreateProductController {
-  constructor(private createProductUseCase: CreateProductUseCase) {}
-
   async handle(request: Request, response: Response): Promise<Response> {
     const {
       image_id,
@@ -20,7 +19,9 @@ class CreateProductController {
 
     const { id } = request.user;
 
-    await this.createProductUseCase.execute({
+    const createProductUseCase = container.resolve(CreateProductUseCase);
+
+    await createProductUseCase.execute({
       category,
       description,
       user_id: id,

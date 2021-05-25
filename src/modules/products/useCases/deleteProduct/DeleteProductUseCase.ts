@@ -1,9 +1,14 @@
+import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/errors/AppError';
 import { productErrors } from '../../errors';
 import { IProductRepository } from '../../repositories/interfaces/IProductRepository';
 
+@injectable()
 class DeleteProductUseCase {
-  constructor(private productRepository: IProductRepository) {}
+  constructor(
+    @inject('ProductRepository')
+    private productRepository: IProductRepository,
+  ) {}
 
   async execute(id: string): Promise<void> {
     const product = await this.productRepository.getProductById(id);

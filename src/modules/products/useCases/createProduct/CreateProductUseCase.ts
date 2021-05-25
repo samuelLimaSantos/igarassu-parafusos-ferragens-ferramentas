@@ -1,3 +1,4 @@
+import { inject, injectable } from 'tsyringe';
 import { AppError } from '../../../../shared/errors/AppError';
 import { ICategoryRepository } from '../../../categories/repositories/interfaces/ICategoryRepository';
 import { ITransactionRepository } from '../../../transactions/repositories/interfaces/ITransactionRepository';
@@ -17,10 +18,14 @@ interface IRequest {
   user_id: string;
 }
 
+@injectable()
 class CreateProductUseCase {
   constructor(
+    @inject('ProductRepository')
     private productRepository: IProductRepository,
+    @inject('CategoryRepository')
     private categoryRepository: ICategoryRepository,
+    @inject('TransactionRepository')
     private transactionRepository: ITransactionRepository,
   ) {}
 

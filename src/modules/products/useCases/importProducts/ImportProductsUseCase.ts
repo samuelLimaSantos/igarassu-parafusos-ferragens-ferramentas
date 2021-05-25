@@ -3,6 +3,7 @@
 /* eslint-disable no-restricted-syntax */
 import fs from 'fs';
 import { parse } from 'node-xlsx';
+import { inject, injectable } from 'tsyringe';
 import { Category } from '../../../categories/infra/typeorm/entities/Category';
 import { ICategoryRepository } from '../../../categories/repositories/interfaces/ICategoryRepository';
 import { Transaction } from '../../../transactions/infra/typeorm/entities/Transaction';
@@ -10,10 +11,14 @@ import { ITransactionRepository } from '../../../transactions/repositories/inter
 import { Product } from '../../infra/typeorm/entities/Product';
 import { IProductRepository } from '../../repositories/interfaces/IProductRepository';
 
+@injectable()
 class ImportProductsUseCase {
   constructor(
+    @inject('ProductRepository')
     private productRepository: IProductRepository,
+    @inject('CategoryRepository')
     private categoryRepository: ICategoryRepository,
+    @inject('TransactionRepository')
     private transactionRepository: ITransactionRepository,
   ) {}
 

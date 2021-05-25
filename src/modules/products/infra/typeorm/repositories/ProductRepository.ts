@@ -94,22 +94,54 @@ class ProductRepository implements IProductRepository {
     return productInventory?.quantity;
   }
 
-  async findProductsPaginatedAndCount(page: number, where: object):
-    Promise<IFindProductsPaginateAndCountResponse> {
-    const [products, count] = await this.repository.findAndCount({
-      skip: page === 1 ? 0 : (page - 1) * takePages,
-      take: takePages,
-      order: { created_at: 'DESC' },
-      where: where || '',
-    });
+  async deleteProductById(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
+
+  async findProductsPaginatedAndCount(page: number, where: any) {
+    const query = this.repository.createQueryBuilder('products');
+
+    if (where) {
+      const {
+        name, unity, cod, category_id,
+      } = where;
+
+      if (name) query.where('name ILIKE :searchTerm', { searchTerm: `%${name}%` });
+
+      if (unity) query.andWhere('unity = :unity', { unity });
+
+      if (cod) query.andWhere('cod ILIKE :codSearch', { codSearch: `%${cod}%` });
+
+      if (category_id) query.andWhere('category_id = :category_id', { category_id });
+    }
+
+    const [products, count] = await query.select([
+      'categories.id',
+      'categories.title',
+      'categories.created_at',
+      'categories.updated_at',
+      'products.id',
+      'products.name',
+      'products.cod',
+      'products.quantity',
+      'products.unity',
+      'products.type',
+      'products.price_sell',
+      'products.price_buy',
+      'products.image_id',
+      'products.description',
+      'products.created_at',
+      'products.updated_at',
+    ])
+      .leftJoin('products.category_id', 'categories')
+      .skip(page === 1 ? 0 : (page - 1) * takePages)
+      .take(takePages)
+      .orderBy('products.created_at', 'DESC')
+      .getManyAndCount();
 
     return {
       products, count,
     };
-  }
-
-  async deleteProductById(id: string): Promise<void> {
-    await this.repository.delete(id);
   }
 }
 

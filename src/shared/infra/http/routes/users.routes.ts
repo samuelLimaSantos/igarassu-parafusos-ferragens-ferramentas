@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import ensureFormatParams from '../modules/users/middlewares/EnsureFormatParams';
-import { createUserController } from '../modules/users/useCases/createUser';
+import ensureFormatParams from '../../../../modules/users/middlewares/EnsureFormatParams';
+import { createUserController } from '../../../../modules/users/useCases/createUser';
 
 const usersRouter = Router();
 

@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import ensureAuthenticated from '../shared/middlewares/ensureAuthenticated';
-import { createCategoryController } from '../modules/categories/useCases/createCategory';
-import { listCategoriesController } from '../modules/categories/useCases/listCategories';
-import ensureFormatParams from '../modules/categories/middlewares/EnsureFormatParams';
+import ensureAuthenticated from '../../middlewares/ensureAuthenticated';
+import { createCategoryController } from '../../../../modules/categories/useCases/createCategory';
+import { listCategoriesController } from '../../../../modules/categories/useCases/listCategories';
+import ensureFormatParams from '../../../../modules/categories/middlewares/EnsureFormatParams';
 
 const routes = Router();
 

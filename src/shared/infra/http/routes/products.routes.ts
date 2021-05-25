@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import multer from 'multer';
-import ensureAuthenticated from '../shared/middlewares/ensureAuthenticated';
-import uploadConfig from '../config/upload';
-import ensureFormatParams from '../modules/products/middlewares/EnsureFormatParams';
-import { listProductsController } from '../modules/products/useCases/listProducts';
-import { listOneProductController } from '../modules/products/useCases/listOneProduct';
-import { deleteProductController } from '../modules/products/useCases/deleteProduct';
-import { updateInventoryController } from '../modules/products/useCases/updateInvetory';
-import { updateProductController } from '../modules/products/useCases/updateProduct';
-import { createProductController } from '../modules/products/useCases/createProduct';
-import { importProductsController } from '../modules/products/useCases/importProducts';
+import ensureAuthenticated from '../../middlewares/ensureAuthenticated';
+import uploadConfig from '../../../../config/upload';
+import ensureFormatParams from '../../../../modules/products/middlewares/EnsureFormatParams';
+import { listProductsController } from '../../../../modules/products/useCases/listProducts';
+import { listOneProductController } from '../../../../modules/products/useCases/listOneProduct';
+import { deleteProductController } from '../../../../modules/products/useCases/deleteProduct';
+import { updateInventoryController } from '../../../../modules/products/useCases/updateInvetory';
+import { updateProductController } from '../../../../modules/products/useCases/updateProduct';
+import { createProductController } from '../../../../modules/products/useCases/createProduct';
+import { importProductsController } from '../../../../modules/products/useCases/importProducts';
 
 const routes = Router();
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import ensureAuthenticated from '../shared/middlewares/ensureAuthenticated';
-import ensureFormatParams from '../modules/transactions/middlewares/EnsureFormatParams';
-import { listTransactionsController } from '../modules/transactions/useCases/listTransactions';
+import ensureAuthenticated from '../../middlewares/ensureAuthenticated';
+import ensureFormatParams from '../../../../modules/transactions/middlewares/EnsureFormatParams';
+import { listTransactionsController } from '../../../../modules/transactions/useCases/listTransactions';
 
 const routes = Router();
 

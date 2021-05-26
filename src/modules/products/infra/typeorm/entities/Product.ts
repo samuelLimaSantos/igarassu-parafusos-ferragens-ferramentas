@@ -52,10 +52,10 @@ class Product {
   transactions: Transaction;
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date | string;
 
   @UpdateDateColumn()
-  updated_at: Date;
+  updated_at: Date | string;
 
   constructor() {
     if (!this.id) {

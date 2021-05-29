@@ -1,5 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
-import { takePages } from '../../../../../shared/utils/Constants';
+import { takePagesTransactions } from '../../../../../shared/utils/Constants';
 import { Transaction } from '../entities/Transaction';
 import {
   ICreateTransactionDTO,
@@ -44,8 +44,8 @@ class TransactionRepository implements ITransactionRepository {
       ])
       .leftJoin('transactions.user_id', 'users')
       .leftJoin('transactions.product_id', 'products')
-      .skip(page === 1 ? 0 : (page - 1) * takePages)
-      .take(takePages)
+      .skip(page === 1 ? 0 : (page - 1) * takePagesTransactions)
+      .take(takePagesTransactions)
       .orderBy('transactions.created_at', 'DESC')
       .getManyAndCount();
 
@@ -69,19 +69,23 @@ class TransactionRepository implements ITransactionRepository {
   }
 
   async getIncomesAndOutcomesById(product_id: string): Promise<IIncomesAndOutcomes> {
-    const incomes = await this.repository.count({
-      where: {
+    const { sum: incomes } = await this.repository
+      .createQueryBuilder()
+      .select('SUM(quantity)', 'sum')
+      .where({
         product_id,
         transaction_type: 'income',
-      },
-    });
+      })
+      .getRawOne();
 
-    const outcomes = await this.repository.count({
-      where: {
+    const { sum: outcomes } = await this.repository
+      .createQueryBuilder()
+      .select('SUM(quantity)', 'sum')
+      .where({
         product_id,
         transaction_type: 'outcome',
-      },
-    });
+      })
+      .getRawOne();
 
     return {
       incomes,

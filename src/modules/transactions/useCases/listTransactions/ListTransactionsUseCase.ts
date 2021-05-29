@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import moment from 'moment';
-import { takePages } from '../../../../shared/utils/Constants';
+import { takePages, takePagesTransactions } from '../../../../shared/utils/Constants';
 import { IProductRepository } from '../../../products/repositories/interfaces/IProductRepository';
 import { IListTransactionsDTO, IListTransactionsResponse, ITransactionRepository } from '../../repositories/interfaces/ITransactionRepository';
 
@@ -31,7 +31,7 @@ class ListTransactionsUseCase {
       transaction.created_at = moment(transaction.created_at).subtract(3, 'hours').format('LLLL');
     });
 
-    const totalPages = Math.ceil(count / takePages);
+    const totalPages = Math.ceil(count / takePagesTransactions);
     return {
       transactions,
       outcomes,

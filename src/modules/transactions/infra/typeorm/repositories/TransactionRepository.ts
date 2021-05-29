@@ -87,9 +87,11 @@ class TransactionRepository implements ITransactionRepository {
       })
       .getRawOne();
 
+    console.log(outcomes);
+
     return {
-      incomes,
-      outcomes,
+      incomes: incomes || 0,
+      outcomes: outcomes || 0,
     };
   }
 }

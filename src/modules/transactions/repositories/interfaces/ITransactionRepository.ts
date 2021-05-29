@@ -25,6 +25,13 @@ interface IListTransactionsResponse {
   nextPage: number | null;
   totalTransactionsActualPage: number;
   productActualQuantity: number | undefined;
+  incomes: number;
+  outcomes: number;
+}
+
+interface IIncomesAndOutcomes {
+  incomes: number;
+  outcomes: number;
 }
 
 interface ITransactionRepository {
@@ -36,6 +43,7 @@ interface ITransactionRepository {
 
   saveTransaction(transaction: Transaction): Promise<void>;
   saveMultipleTransactions(transactions: Transaction[]): Promise<void>
+  getIncomesAndOutcomesById(product_id: string): Promise<IIncomesAndOutcomes>
 
 }
 
@@ -45,4 +53,5 @@ export {
   ICreateTransactionDTO,
   IListTransactionsResponse,
   IFindTransactionByIdPaginatedResponse,
+  IIncomesAndOutcomes,
 };

@@ -31,7 +31,7 @@ class Transaction {
   transaction_type: 'income' | 'outcome'
 
   @CreateDateColumn()
-  created_at: Date;
+  created_at: Date | string;
 
   @UpdateDateColumn()
   updated_at: Date;

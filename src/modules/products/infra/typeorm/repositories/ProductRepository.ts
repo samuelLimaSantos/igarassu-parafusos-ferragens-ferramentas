@@ -1,4 +1,4 @@
-import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { takePages } from '../../../../../shared/utils/Constants';
 import { Product } from '../entities/Product';
 import { ICreateProductDTO, IFindProductsPaginateAndCountResponse, IProductRepository } from '../../../repositories/interfaces/IProductRepository';
@@ -110,7 +110,7 @@ class ProductRepository implements IProductRepository {
 
       if (unity) query.andWhere('unity = :unity', { unity });
 
-      if (cod) query.andWhere('cod ILIKE :codSearch', { codSearch: `%${cod}%` });
+      if (cod) query.andWhere('cod = :cod', { cod });
 
       if (category_id) query.andWhere('category_id = :category_id', { category_id });
     }

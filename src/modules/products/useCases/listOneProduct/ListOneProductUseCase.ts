@@ -21,6 +21,7 @@ class ListOneProductUseCase {
 
     moment.locale('pt-br');
     product.created_at = moment(product.created_at).subtract(3, 'hours').format('LLLL');
+    product.updated_at = moment(product.updated_at).subtract(3, 'hours').format('LLLL');
 
     return product;
   }

@@ -1,4 +1,4 @@
-import { EntityRepository, getRepository, Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { takePages } from '../../../../../shared/utils/Constants';
 import { Transaction } from '../entities/Transaction';
 import {
@@ -6,6 +6,7 @@ import {
   IListTransactionsDTO,
   ITransactionRepository,
   IFindTransactionByIdPaginatedResponse,
+  IIncomesAndOutcomes,
 } from '../../../repositories/interfaces/ITransactionRepository';
 
 class TransactionRepository implements ITransactionRepository {
@@ -38,6 +39,8 @@ class TransactionRepository implements ITransactionRepository {
         'products.id',
         'products.name',
         'products.cod',
+        'products.image_id',
+        'products.unity',
       ])
       .leftJoin('transactions.user_id', 'users')
       .leftJoin('transactions.product_id', 'products')
@@ -63,6 +66,27 @@ class TransactionRepository implements ITransactionRepository {
     });
 
     return transaction;
+  }
+
+  async getIncomesAndOutcomesById(product_id: string): Promise<IIncomesAndOutcomes> {
+    const incomes = await this.repository.count({
+      where: {
+        product_id,
+        transaction_type: 'income',
+      },
+    });
+
+    const outcomes = await this.repository.count({
+      where: {
+        product_id,
+        transaction_type: 'outcome',
+      },
+    });
+
+    return {
+      incomes,
+      outcomes,
+    };
   }
 }
 

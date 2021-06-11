@@ -1,8 +1,14 @@
 import { Transaction } from '../../infra/typeorm/entities/Transaction';
 
+interface IDate {
+  startDate: string;
+  endDate: string;
+}
 interface IListTransactionsDTO{
   page: number;
   product_id: string;
+  date?: IDate;
+
 }
 
 interface ICreateTransactionDTO {
@@ -43,7 +49,7 @@ interface ITransactionRepository {
 
   saveTransaction(transaction: Transaction): Promise<void>;
   saveMultipleTransactions(transactions: Transaction[]): Promise<void>
-  getIncomesAndOutcomesById(product_id: string): Promise<IIncomesAndOutcomes>
+  getIncomesAndOutcomesById(product_id: string, date?: IDate): Promise<IIncomesAndOutcomes>
 
 }
 
@@ -54,4 +60,5 @@ export {
   IListTransactionsResponse,
   IFindTransactionByIdPaginatedResponse,
   IIncomesAndOutcomes,
+  IDate,
 };

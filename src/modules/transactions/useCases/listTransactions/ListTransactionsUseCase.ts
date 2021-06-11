@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import moment from 'moment';
-import { takePages, takePagesTransactions } from '../../../../shared/utils/Constants';
+import { takePagesTransactions } from '../../../../shared/utils/Constants';
 import { IProductRepository } from '../../../products/repositories/interfaces/IProductRepository';
 import { IListTransactionsDTO, IListTransactionsResponse, ITransactionRepository } from '../../repositories/interfaces/ITransactionRepository';
 
@@ -13,14 +13,18 @@ class ListTransactionsUseCase {
     private productRepository: IProductRepository,
   ) {}
 
-  async execute({ page, product_id }: IListTransactionsDTO): Promise<IListTransactionsResponse> {
+  async execute({
+    page,
+    product_id,
+    date,
+  }: IListTransactionsDTO): Promise<IListTransactionsResponse> {
     const {
       count,
       transactions,
-    } = await this.transactionRepository.findTransactionByIdPaginated({ page, product_id });
+    } = await this.transactionRepository.findTransactionByIdPaginated({ page, product_id, date });
 
     const { outcomes, incomes } = await this.transactionRepository
-      .getIncomesAndOutcomesById(product_id);
+      .getIncomesAndOutcomesById(product_id, date);
 
     const productInventory = await this.productRepository
       .getProductInventoryById(product_id);
@@ -38,7 +42,7 @@ class ListTransactionsUseCase {
       incomes,
       totalTransactions: count,
       totalTransactionsActualPage: transactions.length,
-      totalPages,
+      totalPages: totalPages === 0 ? 1 : totalPages,
       previousPage: page === 1 ? null : page - 1,
       nextPage: page === totalPages ? null : page + 1,
       productActualQuantity: productInventory,

@@ -9,7 +9,7 @@ export class DropTransactionColumnInProductsTable1612239733998 implements Migrat
     await queryRunner.addColumn('products', new TableColumn({
       name: 'transaction_type',
       type: 'varchar',
-      isNullable: false,
+      isNullable: true,
     }));
   }
 }

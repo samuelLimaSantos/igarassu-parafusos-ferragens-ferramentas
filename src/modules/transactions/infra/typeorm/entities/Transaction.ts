@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {
   Entity,
   Column,
@@ -30,8 +31,8 @@ class Transaction {
   @Column()
   transaction_type: 'income' | 'outcome'
 
-  @CreateDateColumn()
-  created_at: Date | string;
+  @CreateDateColumn({ type: 'timestamptz' })
+  created_at: Date | string ;
 
   @UpdateDateColumn()
   updated_at: Date;

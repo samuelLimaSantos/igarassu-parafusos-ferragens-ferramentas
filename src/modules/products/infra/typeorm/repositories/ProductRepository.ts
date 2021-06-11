@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 import { takePages } from '../../../../../shared/utils/Constants';
 import { Product } from '../entities/Product';
-import { ICreateProductDTO, IFindProductsPaginateAndCountResponse, IProductRepository } from '../../../repositories/interfaces/IProductRepository';
+import { ICreateProductDTO, IProductRepository } from '../../../repositories/interfaces/IProductRepository';
 
 class ProductRepository implements IProductRepository {
   private repository: Repository<Product>;

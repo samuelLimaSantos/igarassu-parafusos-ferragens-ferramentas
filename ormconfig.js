@@ -13,6 +13,12 @@ module.exports = {
   ],
   "cli": {
     "migrationsDir": process.env.MIGRATIONS_DIR_USE
+  },
+  "ssl": true,
+  "extra": {
+    "ssl": {
+      "rejectUnauthorized": false
+    }
   }
 
 }

@@ -14,7 +14,7 @@ class CreateProductController {
       price_buy,
       description,
       category,
-
+      ncm_sh,
     } = request.body;
 
     const { id } = request.user;
@@ -32,6 +32,7 @@ class CreateProductController {
       quantity,
       type,
       unity,
+      ncm_sh,
     });
 
     return response.status(201).send();

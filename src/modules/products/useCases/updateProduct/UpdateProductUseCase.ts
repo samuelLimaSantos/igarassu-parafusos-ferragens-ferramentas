@@ -15,6 +15,7 @@ interface IRequest {
   image_id: number;
   description: string;
   user_id: string;
+  ncm_sh: string;
 }
 
 @injectable()
@@ -37,6 +38,7 @@ class UpdateProductUseCase {
     image_id,
     description,
     user_id,
+    ncm_sh,
   }: IRequest): Promise<void> {
     const product = await this.productRepository.getProductById(id);
 
@@ -66,6 +68,7 @@ class UpdateProductUseCase {
     product.price_sell = price_sell || product.price_sell;
     product.image_id = image_id || product.image_id;
     product.description = description || product.description;
+    product.ncm_sh = ncm_sh || product.ncm_sh;
 
     await this.productRepository.saveProduct(product);
   }

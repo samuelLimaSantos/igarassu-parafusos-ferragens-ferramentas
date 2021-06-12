@@ -13,6 +13,7 @@ class UpdateProductController {
       price_buy,
       image_id,
       description,
+      ncm_sh,
     } = request.body;
 
     const { id } = request.params;
@@ -32,6 +33,7 @@ class UpdateProductController {
       description,
       id,
       user_id,
+      ncm_sh,
     });
 
     return response.status(204).send();

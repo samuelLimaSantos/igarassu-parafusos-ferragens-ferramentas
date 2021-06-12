@@ -26,6 +26,7 @@ interface ICreateProductDTO {
   image_id: number;
   description: string;
   category_id: number;
+  ncm_sh: string;
 }
 
 interface IProductRepository {

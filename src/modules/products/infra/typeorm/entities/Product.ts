@@ -44,6 +44,9 @@ class Product {
   @Column()
   description: string;
 
+  @Column()
+  ncm_sh: string;
+
   @ManyToOne(() => Category, (category) => category.product, { eager: true })
   @JoinColumn({ name: 'category_id' })
   category_id: number;

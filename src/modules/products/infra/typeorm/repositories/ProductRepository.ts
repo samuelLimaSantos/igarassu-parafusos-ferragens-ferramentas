@@ -25,6 +25,7 @@ class ProductRepository implements IProductRepository {
     price_buy,
     price_sell,
     image_id,
+    ncm_sh,
   }: ICreateProductDTO): Product {
     const product = this.repository.create({
       cod,
@@ -37,6 +38,7 @@ class ProductRepository implements IProductRepository {
       image_id,
       price_sell,
       price_buy,
+      ncm_sh,
     });
 
     return product;

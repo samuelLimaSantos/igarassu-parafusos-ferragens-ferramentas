@@ -60,6 +60,7 @@ class ImportProductsUseCase {
           price_buy: Number(line[5]),
           description: String(line[6]),
           category: String(line[7]),
+          ncm_sh: String(line[8]),
           image_id: Math.floor(Math.random() * 7) + 1,
         };
 
@@ -104,6 +105,7 @@ class ImportProductsUseCase {
           quantity: lineObject.quantity,
           type: lineObject.type,
           unity: lineObject.unity,
+          ncm_sh: lineObject.ncm_sh,
         };
 
         const productModel = this.productRepository.createProduct(product);

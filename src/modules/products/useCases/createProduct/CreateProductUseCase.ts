@@ -16,6 +16,7 @@ interface IRequest {
   description: string;
   category: string;
   user_id: string;
+  ncm_sh: string;
 }
 
 @injectable()
@@ -42,6 +43,7 @@ class CreateProductUseCase {
     unity,
     category,
     user_id,
+    ncm_sh,
   }: IRequest): Promise<void> {
     const categoryAlreadyExists = await this.categoryRepository.findByTitle(category);
 
@@ -76,6 +78,7 @@ class CreateProductUseCase {
       quantity,
       type,
       unity,
+      ncm_sh,
     };
 
     const productModel = this.productRepository.createProduct(product);

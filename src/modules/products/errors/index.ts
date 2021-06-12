@@ -18,6 +18,7 @@ const productErrors = {
   outcomeMoreThanIncome: 'A quantidade de saída não pode ser maior que o valor total atual!',
   pageRequired: 'O número da página é obrigatória!',
   productNotFound: 'Produto não encontrado',
+  ncmShRequired: 'O NCM/SH do produto é obrigatório',
 };
 
 export { productErrors };

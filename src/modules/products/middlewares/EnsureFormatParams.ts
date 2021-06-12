@@ -108,6 +108,7 @@ class EnsureFormatParams {
       description: yup.string().required(productErrors.descriptionRequired),
       category: yup.string().required(productErrors.categoryRequired),
       image_id: yup.number().min(0).required(productErrors.imageIdRequired),
+      ncm_sh: yup.string().required(productErrors.ncmShRequired),
     });
 
     try {

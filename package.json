@@ -6,8 +6,10 @@
   "author": "Samuel Santos <samuellima280499@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/shared/infra/http/server.ts",
+    "typeorm-dev": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "build": "tsc",
+    "start": "node dist/shared/infra/http/server.js"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",

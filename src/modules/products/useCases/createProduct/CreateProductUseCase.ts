@@ -53,12 +53,15 @@ class CreateProductUseCase {
 
     this.category_id = categoryAlreadyExists ? categoryAlreadyExists.id : this.category_id;
 
-    const productAlreadyExistsInCategory = await this.productRepository.getProductByCategoryAndName(
-      name,
-      this.category_id,
-    );
+    // Foi comentado a validação de ter um produto com o mesmo nome pertencente a mesma categoria
 
-    if (productAlreadyExistsInCategory) throw new AppError(productErrors.productAlreadyExists);
+    // const productAlreadyExistsInCategory =
+    // await this.productRepository.getProductByCategoryAndName(
+    //   name,
+    //   this.category_id,
+    // );
+
+    // if (productAlreadyExistsInCategory) throw new AppError(productErrors.productAlreadyExists);
 
     const cod = await this.createCodeSerial(this.category_id);
 

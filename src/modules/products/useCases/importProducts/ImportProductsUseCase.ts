@@ -80,16 +80,16 @@ class ImportProductsUseCase {
 
         this.category_id = categoryAlreadyExists ? categoryAlreadyExists.id : this.category_id;
 
-        const productAlreadyExistsInCategory = await this.productRepository
-          .getProductByCategoryAndName(
-            lineObject.name,
-            this.category_id,
-          );
+        // const productAlreadyExistsInCategory = await this.productRepository
+        //   .getProductByCategoryAndName(
+        //     lineObject.name,
+        //     this.category_id,
+        //   );
 
-        if (productAlreadyExistsInCategory) {
-          this.hasError = true;
-          continue;
-        }
+        // if (productAlreadyExistsInCategory) {
+        //   this.hasError = true;
+        //   continue;
+        // }
 
         const cod = await this.createCodeSerial(this.category_id);
 

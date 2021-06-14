@@ -101,9 +101,9 @@ class EnsureFormatParams {
         .required(productErrors.quantityRequired),
       type: yup.string().required(productErrors.typeRequired),
       unity: yup.string().required(productErrors.unityRequired),
-      price_sell: yup.number().min(0.1, productErrors.priceLessThanZero)
+      price_sell: yup.number().min(0, productErrors.priceLessThanZero)
         .required(productErrors.priceSellRequired),
-      price_buy: yup.number().min(0.1, productErrors.priceLessThanZero)
+      price_buy: yup.number().min(0, productErrors.priceLessThanZero)
         .required(productErrors.priceBuyRequired),
       description: yup.string().required(productErrors.descriptionRequired),
       category: yup.string().required(productErrors.categoryRequired),

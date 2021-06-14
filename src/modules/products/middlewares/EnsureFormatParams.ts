@@ -74,8 +74,8 @@ class EnsureFormatParams {
       type: yup.string(),
       unity: yup.string(),
       description: yup.string(),
-      price_sell: yup.number().min(0.1, productErrors.priceLessThanZero),
-      price_buy: yup.number().min(0.1, productErrors.priceLessThanZero),
+      price_sell: yup.number().min(0, productErrors.priceLessThanZero),
+      price_buy: yup.number().min(0, productErrors.priceLessThanZero),
       image_id: yup.number().min(0),
     });
 
